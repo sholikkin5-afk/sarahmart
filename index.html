@@ -317,11 +317,20 @@ data.forEach(p=>{
 
 async function loadProduk(){
   await loadSettingPromo();
-  await cekLogin();
+  await cekLogin(); // Tunggu cekLogin rampung disek
+  
   const container = document.getElementById('daftar-produk');
+  container.innerHTML = "Loading produk..."; // Reset tulisan loading
+
   const { data, error } = await db.from('prodak').select('*').order('deskripsi', { ascending: true }).order('nama', { ascending: true });
-  if(error){ container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; return; }
-  if(!data || data.length === 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; return; }
+  if(error){ 
+    container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; 
+    return; 
+  }
+  if(!data || data.length === 0){ 
+    container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; 
+    return; 
+  }
   produk = data;
   allProduk = data;
   produkFilter = data;
@@ -448,7 +457,7 @@ async function cekLogin() {
   }
 
   // STEP 2: CEK WES LOGIN OPO DURUNG
-  const { data: { session } = await db.auth.getSession();
+  const { data: { session } } = await db.auth.getSession();
   const dataLokal = JSON.parse(localStorage.getItem('pelanggan_sarahmart'));
   
   if(session && dataLokal){
