@@ -25,11 +25,11 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 
     /* BARIS 2: SEARCH 3:1 KATEGORI */
 .header-bawah{display:flex;gap:8px;max-width:1200px;margin-top:33px}
-.search{flex:2}
+.search{flex:3}
 .search input{width:100%;padding:10px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;color:#000;background:rgba(255,255,255,0.95);font-size:14px}
 .search input:focus{outline:none;border-color:#00c853}
 
-.kategori-wrap{flex:2}
+.kategori-wrap{flex:1}
     #select-kategori{width:100%;padding:10px;border-radius:12px;border:2px solid rgba(255,255,255,0.5);background:rgba(255,255,255,0.95);color:#1976d2;font-weight:bold;font-size:14px;cursor:pointer}
     #select-kategori:focus{outline:none;border-color:#00c853}
 
@@ -37,7 +37,6 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 .menu-atas{display:flex;justify-content:center;gap:10px;padding:10px 0 0 0;max-width:1200px;margin-top:-5px; margin-bottom:-18px}
 .btn-menu{padding:8px 15px;border:none;border-radius:20px;background:rgba(255,255,255,0.2);color:white;font-weight:bold;cursor:pointer;font-size:13px;transition:0.2s;flex-shrink:0}
 .btn-menu.aktif{background:white;color:#1976d2;box-shadow:0 2px 5px rgba(0,0,0,0.2)}
-.btn-akun{position:absolute;top:15px;right:55px;background:#f44336;color:white;border:none;padding:5px 10px;border-radius:20px;font-size:11px;display:none}
 
 .btn-reset-filter{display:none;margin:10px auto;padding:8px 15px;border:none;border-radius:20px;background:#757575;color:white;font-weight:bold;cursor:pointer}
 
@@ -75,7 +74,7 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 .pagination span{font-weight:bold;color:#1976d2}
 
     /* POPUP KERANJANG - TOTAL PINDAH MENE */
-.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end;justify-content:center}
+.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end}
 .popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:20px 20px 0 0;padding:18px;max-height:85vh;overflow-y:auto}
 .popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .popup-header h3{font-size:18px;color:#1976d2}
@@ -96,7 +95,7 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 .notif-kupon{background:linear-gradient(135deg, #ff9800 0%, #ff1744 100%);color:white;padding:12px;border-radius:12px;margin-bottom:12px;text-align:center;font-weight:bold;font-size:14px;box-shadow:0 3px 10px rgba(255,23,68,0.3)}
 .notif-kupon small{display:block;font-weight:normal;font-size:12px;margin-top:4px}
 
-.form-pelanggan input,.form-pelanggan textarea{width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px;background:#f5f5f5}
+.form-pelanggan input,.form-pelanggan textarea{width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px}
 .form-pelanggan input:focus,.form-pelanggan textarea:focus{outline:none;border-color:#00c853}
 .btn-wa{width:100%;background:linear-gradient(135deg, #25D366 0%, #00c853 100%);color:white;border:none;padding:15px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:12px;cursor:pointer;box-shadow:0 4px 10px rgba(37,211,102,0.3)}
 
@@ -107,12 +106,12 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
     /* ===== VERSI DESKTOP 4 KOLOM ===== */
     @media(min-width: 768px){
       body{padding-top:220px}
-.header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
-.produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
-.card img{height:180px}
-.card h3{height:40px;font-size:15px}
-.banner-slider{height:240px; border-radius:20px; margin:15px auto}
-.popup-content{max-width:700px}
+  .header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
+  .produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
+  .card img{height:180px}
+  .card h3{height:40px;font-size:15px}
+  .banner-slider{height:240px; border-radius:20px; margin:15px auto}
+  .popup-content{max-width:700px}
     }
     /* ANTI BADGE NYASAR */
 .badge-diskon{pointer-events:none}
@@ -127,13 +126,12 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
     <div class="logo-wrap">
       <img src="logo.jpg" alt="Logo SARAHmart">
     </div>
-    <button class="btn-akun" id="btnGantiAkun" onclick="logout()">Ganti Akun</button>
     <div class="icon-keranjang-atas" onclick="bukaKeranjang()">🛒<div class="lencana" id="jumlah-lencana">0</div></div>
   </div>
 
   <!-- BARIS 2: SEARCH 3:1 KATEGORI -->
   <div class="header-bawah">
-    <div class="search"><input type="text" id="cari" placeholder="🔍 Cari produk" onkeyup="cariProduk()"></div>
+    <div class="search"><input type="text" id="cari" placeholder="🔍 Cari produk di SARAHmart..." onkeyup="cariProduk()"></div>
     <div class="kategori-wrap">
       <select id="select-kategori" onchange="filterKategoriDropdown(this.value)">
         <option value="Semua">📦 Semua</option>
@@ -169,38 +167,29 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 
 <div id="halaman-pesanan" style="display:none;max-width:800px;margin:auto;padding:10px">
   <h3 style="text-align:center;color:#1976d2;margin:15px 0">📦 Riwayat Pesanan</h3>
-  <input type="text" id="cari-pesanan" placeholder="Masukkan No HP untuk cek pesanan" style="width:100%;padding:12px;border:2px solid #1976d2;border-radius:10px;margin-bottom:10px" readonly>
+  <input type="text" id="cari-pesanan" placeholder="Masukkan No HP untuk cek pesanan" style="width:100%;padding:12px;border:2px solid #1976d2;border-radius:10px;margin-bottom:10px">
   <button onclick="loadPesanan()" style="width:100%;background:#1976d2;color:white;padding:12px;border:none;border-radius:10px;font-weight:bold">Cari Pesanan</button>
   <div id="list-pesanan" style="margin-top:15px"></div>
 </div>
+
+<!-- FOOTER KERANJANG DIHAPUS -->
 
 <div class="popup" id="popupKeranjang">
   <div class="popup-content">
     <div class="popup-header"><h3>🛒 Keranjang SARAHmart</h3><button class="close-btn" onclick="tutupKeranjang()">x</button></div>
     <div id="notif-kupon"></div>
     <div id="isi-keranjang" style="text-align:center; color:#666; padding:20px;">Keranjang masih kosong</div>
+
+    <!-- TOTAL PINDAH MENE -->
     <div class="total-bar" id="total-keranjang"></div>
+
     <div class="form-pelanggan">
       <h4 style="color:#1976d2">Data Pengiriman</h4>
-      <input type="text" id="nama_pelanggan" placeholder="Nama Lengkap" readonly>
-      <input type="text" id="no_hp" placeholder="No HP 08xxxx" readonly>
-      <textarea id="alamat" placeholder="Alamat Lengkap" rows="2" readonly></textarea>
-      <small style="color:#666">Mau ganti data? Klik "Ganti Akun" neng pojok</small>
+      <input type="text" id="nama_pelanggan" placeholder="Nama Lengkap">
+      <input type="text" id="no_hp" placeholder="No HP 08xxxx">
+      <textarea id="alamat" placeholder="Alamat Lengkap" rows="2"></textarea>
     </div>
     <button class="btn-wa" onclick="kirimPesanan()">💬 Kirim Pesanan via WhatsApp</button>
-  </div>
-</div>
-
-<!-- POPUP LOGIN VERSI LINK EMAIL - DEFAULT KETUTUP -->
-<div class="popup" id="popupLogin" style="display:none;z-index:30;align-items:center">
-  <div class="popup-content" style="max-width:400px">
-    <h3 style="text-align:center;color:#1976d2">🔐 Selamat Datang</h3>
-    <p style="text-align:center;font-size:13px;color:#666">Kita kirim link verifikasi neng Email</p>
-    <input type="text" id="login_nama" placeholder="Nama Lengkap" required style="width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px">
-    <input type="email" id="login_email" placeholder="Email: budi@gmail.com" required style="width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px">
-    <textarea id="login_alamat" placeholder="Alamat Lengkap" rows="2" required style="width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px"></textarea>
-    <input type="tel" id="login_hp" placeholder="No HP 08xxxx - Go Kirim Struk" required style="width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px">
-    <button class="btn-wa" onclick="kirimLinkVerifikasi()">📧 Kirim Link Verifikasi</button>
   </div>
 </div>
 
@@ -214,12 +203,11 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
   let halamanAktif = 1; const perHalaman = 10; let produkFilter = [];
   let bannerIndex = 0; let bannerInterval; let startX = 0; let isDragging = false; let dragThreshold = false;
   let settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null}; // DEFAULT MATI
-  let dataPelanggan = null;
 
 async function loadSettingPromo(){
   const {data} = await db.from('setting').select('*').eq('key','promo_undian').single();
   if(data && data.value){
-    settingPromo = data.value;
+    settingPromo = data.value; // HAPUS JSON.parse
   } else {
     settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
   }
@@ -231,26 +219,48 @@ async function loadBanner(){
   track.innerHTML = '';
   dots.innerHTML = '';
   const today = new Date().toISOString().split('T')[0];
+
   let bannerOtomatis = [];
 
+// BANNER KUPON UNDIAN PALING NDUWUR - VERSI KOLASE
 if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_akhir)){
   let tglText = settingPromo.tgl_akhir? `Berlaku s/d ${new Date(settingPromo.tgl_akhir).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}` : `Berlaku kelipatan!`;
+  
   let gambarKolase = '';
   const imgs = settingPromo.gambar_urls || [];
+
   if(imgs.length === 0){
+    // Nek gak ono gambar
     gambarKolase = `<div style="background:linear-gradient(135deg, #ff9800 0%, #ff1744 100%);display:flex;align-items:center;justify-content:center;height:100%;color:white;text-align:center"><div><div style="font-size:24px">🎟️🎁🎟️</div><div>Hadiah Menarik Menanti!</div></div></div>`;
+  } 
+  else if(imgs.length === 1){
+    gambarKolase = `<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;">`;
   }
-  else if(imgs.length === 1){ gambarKolase = `<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;">`; }
-  else if(imgs.length === 2){ gambarKolase = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"></div>`; }
-  else if(imgs.length === 3){ gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><div style="display:grid;grid-template-rows:1fr 1fr;gap:3px"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover;"></div></div>`; }
-  else {
+  
+  else if(imgs.length === 2){
+    gambarKolase = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"></div>`;
+  }
+  else if(imgs.length === 3){
+    gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><div style="display:grid;grid-template-rows:1fr 1fr;gap:3px"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover;"></div></div>`;
+  }
+  else { // 4 - 6 gambar
     gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:100%">`;
-    gambarKolase += `<img src="${imgs[0]}" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;">`;
-    for(let i=1; i<5 && i<imgs.length; i++){ gambarKolase += `<img src="${imgs[i]}" style="width:100%;height:100%;object-fit:cover;">`; }
-    if(imgs.length > 5){ gambarKolase += `<div style="background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px;">+${imgs.length-5}</div>`; }
+    gambarKolase += `<img src="${imgs[0]}" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;">`; // Hadiah utama gede
+    for(let i=1; i<5 && i<imgs.length; i++){
+      gambarKolase += `<img src="${imgs[i]}" style="width:100%;height:100%;object-fit:cover;">`;
+    }
+    if(imgs.length > 5){
+      gambarKolase += `<div style="background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px;">+${imgs.length-5}</div>`;
+    }
     gambarKolase += `</div>`;
   }
-  bannerOtomatis.push({judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`, subjudul: `${tglText} Undian diundi tiap akhir bulan`, gambar_html: gambarKolase, link: `#produk`});
+
+  bannerOtomatis.push({
+    judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`,
+    subjudul: `${tglText} Undian diundi tiap akhir bulan`,
+    gambar_html: gambarKolase,
+    link: `#produk`
+  });
 }
 
   const produkDiskon = produk.filter(p=>p.diskon>0 && p.stok>0 && (!p.tgl_kadaluarsa || p.tgl_kadaluarsa >= today));
@@ -268,9 +278,14 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
       const tglSekarang = new Date();
       const selisihWaktu = tglExp - tglSekarang;
       const selisihHari = Math.ceil(selisihWaktu / (1000 * 60 * 60 * 24));
-      if(selisihHari <= 3 && selisihHari >= 0){ teksTgl = `🔥 TINGGAL ${selisihHari} HARI LAGI!! BERLAKU S/D ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}`; }
-      else { teksTgl = `Berlaku s/d ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}`; }
-    } else { teksTgl = `📦 SELAMA PERSEDIAAN MASIH ADA`; }
+      if(selisihHari <= 3 && selisihHari >= 0){
+        teksTgl = `🔥 TINGGAL ${selisihHari} HARI LAGI!! BERLAKU S/D ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}`;
+      }else {
+        teksTgl = `Berlaku s/d ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}`;
+      }
+    } else {
+      teksTgl = `📦 SELAMA PERSEDIAAN MASIH ADA`;
+    }
     const jmlProduk = daftarProduk.length;
     let gambarKolase = `<div style="display:grid;height:100%;background:#ff1744;padding:3px;gap:3px;">`;
     if(jmlProduk == 1){gambarKolase += `<div style="grid-column:1/3;grid-row:1/3;overflow:hidden;border-radius:5px;"><img src="${produkUtama.gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;}
@@ -282,7 +297,12 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
   }
 
   if(bannerOtomatis.length == 1){
-    bannerOtomatis.push({judul: `SELAMAT DATANG DI SARAHMART`, subjudul: ``, gambar_html: `<img src="logo.jpg" style="width:100%;height:100%;object-fit:contain;background:white">`, link: `#produk`})
+    bannerOtomatis.push({
+      judul: `SELAMAT DATANG DI SARAHMART`,
+      subjudul: ``,
+      gambar_html: `<img src="logo.jpg" style="width:100%;height:100%;object-fit:contain;background:white">`,
+      link: `#produk`
+    })
   }
 
   bannerOtomatis.forEach((b,i)=>{
@@ -292,7 +312,9 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
   clearInterval(bannerInterval);
   bannerIndex = 0;
   updateBannerPosition();
-  if(bannerOtomatis.length > 1){ bannerInterval = setInterval(()=>{nextBanner();},4000); }
+  if(bannerOtomatis.length > 1){
+    bannerInterval = setInterval(()=>{nextBanner();},4000);
+  }
   initBannerSwipe();
 }
 
@@ -303,34 +325,15 @@ function initBannerSwipe(){const track = document.getElementById('banner-track')
 function filterBanner(link){if(dragThreshold) return; if(!link) return; if(link.startsWith('diskon')){const persen = link.replace('diskon',''); filterProdukByDiskon(persen); document.getElementById('daftar-produk').scrollIntoView({behavior: 'smooth'});} else if(link.startsWith('#')){document.querySelector(link)?.scrollIntoView({behavior: 'smooth'});}}
 function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('select-kategori').value = 'Semua'; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotif(`Menampilkan produk diskon ${persen}%`,'sukses');}
 function resetFilter(){produkFilter = allProduk; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'none';}
-function gantiMenu(menu, el){document.querySelectorAll('.btn-menu').forEach(b=>b.classList.remove('aktif')); el.classList.add('aktif'); document.getElementById('halaman-produk').style.display = menu=='produk'?'block':'none'; document.getElementById('halaman-pesanan').style.display = menu=='pesanan'?'block':'none'; if(menu=='pesanan' && dataPelanggan){document.getElementById('cari-pesanan').value = dataPelanggan.no_hp; loadPesanan();}}
-async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){alert('Isi No HP dulu');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false});
-const container = document.getElementById('list-pesanan');
-if(!data || data.length==0){ container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>'; return; }
-container.innerHTML='';
-data.forEach(p=>{
-  let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai';
-  let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : '';
-  container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;
-})
-}
+function gantiMenu(menu, el){document.querySelectorAll('.btn-menu').forEach(b=>b.classList.remove('aktif')); el.classList.add('aktif'); document.getElementById('halaman-produk').style.display = menu=='produk'?'block':'none'; document.getElementById('halaman-pesanan').style.display = menu=='pesanan'?'block':'none';}
+async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){alert('Isi No HP dulu');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false}); const container = document.getElementById('list-pesanan'); if(!data || data.length==0){container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>';return;} container.innerHTML=''; data.forEach(p=>{let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai'; let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : ''; container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;})}
 
 async function loadProduk(){
-  await loadSettingPromo();
-  await cekLogin(); // Tunggu cekLogin rampung disek
-  
+  await loadSettingPromo(); // LOAD SETTING DULU
   const container = document.getElementById('daftar-produk');
-  container.innerHTML = "Loading produk..."; // Reset tulisan loading
-
   const { data, error } = await db.from('prodak').select('*').order('deskripsi', { ascending: true }).order('nama', { ascending: true });
-  if(error){ 
-    container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; 
-    return; 
-  }
-  if(!data || data.length === 0){ 
-    container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; 
-    return; 
-  }
+  if(error){ container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; return; }
+  if(!data || data.length === 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; return; }
   produk = data;
   allProduk = data;
   produkFilter = data;
@@ -355,42 +358,8 @@ function filterKategoriDropdown(kategori){
   document.getElementById('btn-reset-filter').style.display = kategori === 'Semua'? 'none' : 'block';
 }
 
-function tampilProduk(){
-  // ACAK PRODUK BEN GAK MONOTON
-  produkFilter.sort(() => 0.5 - Math.random());
-  const container = document.getElementById('daftar-produk');
-  container.innerHTML = "";
-  let start = (halamanAktif - 1) * perHalaman;
-  let end = start + perHalaman;
-  let dataTampil = produkFilter.slice(start, end);
-  if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; }
-  dataTampil.forEach((p)=>{
-    const today = new Date().toISOString().split('T')[0];
-    let diskonAktif = p.diskon && p.diskon > 0;
-    if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false;
-    const btnDisabled = p.stok <= 0? 'disabled' : '';
-    const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`;
-    let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`;
-    let badgeDiskon = '';
-    let hargaFinal = p.harga;
-    if(diskonAktif){
-      hargaFinal = p.harga - (p.harga * p.diskon / 100);
-      hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`;
-      badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
-    }
-    container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
-  });
-  updatePagination();
-}
-
-function cariProduk(){
-  const keyword = document.getElementById('cari').value.toLowerCase();
-  produkFilter = allProduk;
-  if(kategoriAktif!== 'Semua'){ produkFilter = produkFilter.filter(p => p.deskripsi.includes(kategoriAktif)); }
-  if(keyword){ produkFilter = produkFilter.filter(p => p.nama.toLowerCase().includes(keyword)); }
-  halamanAktif = 1;
-  tampilProduk();
-}
+function tampilProduk(){const container = document.getElementById('daftar-produk'); container.innerHTML = ""; let start = (halamanAktif - 1) * perHalaman; let end = start + perHalaman; let dataTampil = produkFilter.slice(start, end); if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; } dataTampil.forEach((p)=>{const today = new Date().toISOString().split('T')[0]; let diskonAktif = p.diskon && p.diskon > 0; if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false; const btnDisabled = p.stok <= 0? 'disabled' : ''; const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`; let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`; let badgeDiskon = ''; let hargaFinal = p.harga; if(diskonAktif){hargaFinal = p.harga - (p.harga * p.diskon / 100); hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`; badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;} container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;}); updatePagination();}
+function cariProduk(){const keyword = document.getElementById('cari').value.toLowerCase(); produkFilter = allProduk; if(kategoriAktif!== 'Semua'){ produkFilter = produkFilter.filter(p => p.deskripsi.includes(kategoriAktif)); } if(keyword){ produkFilter = produkFilter.filter(p => p.nama.toLowerCase().includes(keyword)); } halamanAktif = 1; tampilProduk();}
 function gantiHalaman(arah){ halamanAktif += arah; tampilProduk(); window.scrollTo(0, 300); }
 function updatePagination(){const totalHalaman = Math.ceil(produkFilter.length / perHalaman); document.getElementById('info-halaman').innerText = `Hal ${halamanAktif} dari ${totalHalaman}`; document.getElementById('btn-prev').disabled = halamanAktif == 1; document.getElementById('btn-next').disabled = halamanAktif == totalHalaman || totalHalaman == 0;}
 function tambahKeranjang(id, hargaFinal, tombol){const itemProduk = produk.find(p => p.id === id); const itemKeranjang = keranjang.find(x=>x.id === id); let jumlahSekarang = itemKeranjang? itemKeranjang.jumlah : 0; if(jumlahSekarang >= itemProduk.stok){ alert(`Stok ${itemProduk.nama} tinggal ${itemProduk.stok}`); return; } if(itemKeranjang){ itemKeranjang.jumlah++ } else{ keranjang.push({...itemProduk, harga: hargaFinal, jumlah:1}) } tombol.innerHTML = '✓ Ditambah'; tombol.style.background = 'linear-gradient(135deg, #00c853 0%, #2e7d32 100%)'; setTimeout(()=>{ tombol.innerHTML = '+ Tambah'; tombol.style.background = 'linear-gradient(135deg, #1976d2 0%, #00c853 100%)'; }, 500); updateKeranjangBar();}
@@ -398,18 +367,22 @@ function ubahJumlah(id, aksi){const item = keranjang.find(x=>x.id === id);const 
 function setJumlah(id, val){const item = keranjang.find(x=>x.id === id);const produkAsli = produk.find(p => p.id === id);if(!item) return;let jumlahBaru = parseInt(val) || 1;if(jumlahBaru > produkAsli.stok){ alert(`Stok maksimal ${produkAsli.stok}`); jumlahBaru = produkAsli.stok; }if(jumlahBaru < 1) jumlahBaru = 1;item.jumlah = jumlahBaru;tampilKeranjang(); updateKeranjangBar();}
 function hapusItem(id){ keranjang = keranjang.filter(x=>x.id!== id); tampilKeranjang(); updateKeranjangBar(); }
 function updateKeranjangBar(){let totalItem = keranjang.reduce((a,b)=>a+b.jumlah,0);document.getElementById('jumlah-lencana').innerHTML = totalItem;document.getElementById('jumlah-lencana').style.display = totalItem > 0? 'flex' : 'none';}
-function bukaKeranjang(){if(!dataPelanggan){cekLogin();return;}document.getElementById('popupKeranjang').style.display = 'flex'; tampilKeranjang();}
+function bukaKeranjang(){document.getElementById('popupKeranjang').style.display = 'flex'; tampilKeranjang();}
 function tutupKeranjang(){document.getElementById('popupKeranjang').style.display = 'none';}
 
 function cekKupon(total){
   const notifDiv = document.getElementById('notif-kupon');
   const today = new Date().toISOString().split('T')[0];
+
+  // NEK PROMO MATI ATAU WES LEWAT TANGGAL
   if(!settingPromo.aktif || (settingPromo.tgl_akhir && today > settingPromo.tgl_akhir)){
     notifDiv.style.display = 'none';
     return;
   }
+
   const minimal = settingPromo.minimal;
   const jumlahKupon = Math.floor(total / minimal);
+
   if(jumlahKupon > 0){
     notifDiv.innerHTML = `🎉 SELAMAT! Anda dapat ${jumlahKupon} KUPON UNDIAN 🎉<small>Belanja Rp ${total.toLocaleString('id-ID')} = ${jumlahKupon} Kupon. ${settingPromo.tgl_akhir? `Berlaku s/d ${new Date(settingPromo.tgl_akhir).toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}` : 'Tanpa batas waktu'}</small>`;
     notifDiv.style.display = 'block';
@@ -423,101 +396,52 @@ function cekKupon(total){
 function tampilKeranjang(){const container = document.getElementById('isi-keranjang'); const totalEl = document.getElementById('total-keranjang');if(keranjang.length === 0){container.innerHTML = "🛒 Keranjang masih kosong"; totalEl.innerHTML = ""; document.getElementById('notif-kupon').style.display = 'none'; return;}container.innerHTML = ""; let total = 0;keranjang.forEach((k)=>{total += k.harga * k.jumlah;const produkAsli = produk.find(p => p.id === k.id);const btnPlusDisabled = k.jumlah >= produkAsli.stok? 'disabled' : '';container.innerHTML += `<div class="item-cart"><img src="${k.gambar_url}"><div class="item-info"><h4>${k.nama}</h4><p>Rp ${k.harga.toLocaleString('id-ID')}</p><small style="color:#666">Stok: ${produkAsli.stok}</small><div class="qty-btn"><button onclick="ubahJumlah(${k.id},'kurang')">-</button><input type="number" class="qty-input" value="${k.jumlah}" min="1" max="${produkAsli.stok}" onchange="setJumlah(${k.id}, this.value)"><button ${btnPlusDisabled} onclick="ubahJumlah(${k.id},'tambah')">+</button></div><button class="btn-hapus" onclick="hapusItem(${k.id})">🗑️ Hapus</button></div></div>`;
   });
   totalEl.innerHTML = `<span>Total Belanja</span> <span>Rp ${total.toLocaleString('id-ID')}</span>`;
-  cekKupon(total);
-}
-
-// FUNGSI LOGIN BARU VERSI LINK EMAIL - FINAL
-async function kirimLinkVerifikasi(){
-  const nama = document.getElementById('login_nama').value.trim();
-  const email = document.getElementById('login_email').value.trim();
-  const alamat = document.getElementById('login_alamat').value.trim();
-  const hp = document.getElementById('login_hp').value.trim();
-  if(!nama ||!email ||!alamat ||!hp){ alert('Isi semua data dulu!'); return; }
-  localStorage.setItem('data_daftar_sementara', JSON.stringify({nama, email, alamat, no_hp: hp}));
-  const { error } = await db.auth.signUp({
-    email: email,
-    password: Math.random().toString(36).slice(-8),
-    options: {
-      emailRedirectTo: 'https://sarahmart.vercel.app',
-      data: { nama: nama, alamat: alamat, no_hp: hp }
-    }
-  })
-  if(error){ alert('Gagal kirim email: '+error.message); return; }
-  alert('✅ Link verifikasi sudah dikirim ke Email. Silahkan cek inbox/spam');
-  showNotif('Cek email untuk verifikasi', 'sukses');
-}
-
-// INI INTI NE BEN POPUP GAK METU TERUS
-async function cekLogin() {
-  // STEP 1: CEK TOKO NEK ONO TOKEN SEKO EMAIL
-  const hash = window.location.hash;
-  if(hash.includes('access_token')){
-    await db.auth.getSession(); // Paksa Supabase moco token
-    window.location.hash = ''; // Resik i URL
-  }
-
-  // STEP 2: CEK WES LOGIN OPO DURUNG
-  const { data: { session } } = await db.auth.getSession();
-  const dataLokal = JSON.parse(localStorage.getItem('pelanggan_sarahmart'));
-  
-  if(session && dataLokal){
-    dataPelanggan = dataLokal;
-    // NEK WES LOGIN -> TUTUP POPUP, TAMPILNO TOKO
-    document.getElementById('popupLogin').style.display = 'none';
-    document.getElementById('btnGantiAkun').style.display = 'block';
-    document.getElementById('nama_pelanggan').value = dataLokal.nama;
-    document.getElementById('no_hp').value = dataLokal.no_hp;
-    document.getElementById('alamat').value = dataLokal.alamat;
-  } else {
-    dataPelanggan = null;
-    // NEK DURUNG LOGIN -> METOKNO POPUP
-    document.getElementById('popupLogin').style.display = 'flex';
-    document.getElementById('btnGantiAkun').style.display = 'none';
-  }
-}
-
-function logout(){
-  if(confirm('Yakin mau ganti akun?')){
-    localStorage.removeItem('pelanggan_sarahmart');
-    db.auth.signOut();
-    dataPelanggan = null;
-    keranjang = [];
-    updateKeranjangBar();
-    location.reload();
-  }
+  cekKupon(total); // PANGGIL FUNGSI KUPON
 }
 
 async function kirimPesanan(){
   if(keranjang.length===0){ alert("Keranjang masih kosong!"); return; }
-  if(!dataPelanggan){ cekLogin(); return; }
-  const {nama, no_hp, alamat} = dataPelanggan;
-  const dataKeranjangFinal = [...keranjang];
+  const nama = document.getElementById('nama_pelanggan').value;
+  const hp = document.getElementById('no_hp').value;
+  const alamat = document.getElementById('alamat').value;
+  if(!nama ||!hp ||!alamat){alert("Isi data pengiriman dulu!"); return;}
+
   let total = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
   const today = new Date().toISOString().split('T')[0];
   let jumlahKupon = 0;
+  // HITUNG KUPON HANYA JIKA PROMO AKTIF
   if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_akhir)){
     jumlahKupon = Math.floor(total / settingPromo.minimal);
   }
+
   const id_pesanan = 'SRH' + Date.now();
-  await kurangiStok();
-  keranjang = [];
-  updateKeranjangBar();
-  tutupKeranjang();
+
+  // KIRIM KE DB + TAMBAH data_scan + jumlah_kupon
   const {error: errInsert} = await db.from('pesenan').insert([{
-    id_pesanan: id_pesanan, data_keranjang: dataKeranjangFinal, data_scan: [],
-    nama_pelanggan: nama, no_hp: no_hp, alamat: alamat,
-    total_harga: total, jumlah_kupon: jumlahKupon, status: 'Baru'
+    id_pesanan: id_pesanan,
+    data_keranjang: keranjang,
+    data_scan: [], // PENTING GO KASIR SCAN
+    nama_pelanggan: nama,
+    no_hp: hp,
+    alamat: alamat,
+    total_harga: total,
+    jumlah_kupon: jumlahKupon, // SIMPEN KUPON
+    status: 'Baru'
   }])
   if(errInsert){ alert('Gagal simpan pesanan: '+errInsert.message); return; }
+
+  await kurangiStok();
+
   let pesanAdmin = `🔔 PESAN BARU MASUK! 🔔%0A%0AID: ${id_pesanan}%0A`;
-  dataKeranjangFinal.forEach(k=>{pesanAdmin += `- ${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}%0A`;});
+  keranjang.forEach(k=>{pesanAdmin += `- ${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}%0A`;});
   pesanAdmin += `%0ATotal: Rp ${total.toLocaleString('id-ID')}`;
   if(jumlahKupon > 0) pesanAdmin += `%0A🎟️ JUMLAH KUPON: ${jumlahKupon}`;
-  pesanAdmin += `%0A%0ADari: ${nama} - ${no_hp}%0AAlamat: ${alamat}`;
+  pesanAdmin += `%0A%0ADari: ${nama} - ${hp}%0AAlamat: ${alamat}`;
   window.open(`https://wa.me/${ADMIN_WA}?text=${pesanAdmin}`, '_blank');
-  generatePDFStruk(id_pesanan, nama, alamat, no_hp, total, jumlahKupon, dataKeranjangFinal);
-  await loadProduk();
-  alert('Pesanan terkirim! Stok sudah terupdate.')
+
+  generatePDFStruk(id_pesanan, nama, alamat, hp, total, jumlahKupon);
+  keranjang = []; updateKeranjangBar(); tutupKeranjang(); loadProduk();
+  alert('Pesanan terkirim! Stok sudah terupdate. Cek di menu "Pesanan Saya"')
 }
 
 async function kurangiStok(){
@@ -530,126 +454,27 @@ async function kurangiStok(){
   }
 }
 
-async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKeranjang){
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = 400;
-  let tinggi = 650 + (dataKeranjang.length * 50);
-  if(jumlahKupon > 0) tinggi += 60;
-  canvas.height = tinggi;
-  const gradient = ctx.createLinearGradient(0, 0, 0, 100);
-  gradient.addColorStop(0, '#8B5CF6');
-  gradient.addColorStop(1, '#6366F1');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, 100);
-  const logo = new Image();
-  logo.crossOrigin = "anonymous";
-  logo.src = 'logo.jpg';
-  await new Promise(resolve => { logo.onload = resolve });
-  ctx.drawImage(logo, 150, 15, 100, 50);
-  ctx.fillStyle = 'white';
-  ctx.font = 'bold 24px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('SARAHMART', canvas.width/2, 75);
-  ctx.font = '14px Arial';
-  ctx.fillText('MBABREK RT 4C CAMPLONK', canvas.width/2, 95);
-  ctx.fillStyle = 'black';
-  ctx.textAlign = 'left';
-  let y = 130;
-  ctx.font = '14px monospace';
-  ctx.fillText(`No : ${id}`, 20, y); y += 25;
-  ctx.fillText(`Tgl : ${new Date().toLocaleString('id-ID')}`, 20, y); y += 25;
-  ctx.fillText(`Kasir: SARAH`, 20, y); y += 25;
-  ctx.strokeStyle = '#ccc';
-  ctx.setLineDash([5,5]);
-  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 20;
-  ctx.setLineDash([]);
-  dataKeranjang.forEach(k=>{
-    ctx.font = 'bold 14px Arial';
-    ctx.fillText(k.nama, 20, y); y += 20;
-    ctx.font = '14px monospace';
-    ctx.fillText(`${k.jumlah} x ${k.harga.toLocaleString('id-ID')}`, 20, y);
-    ctx.textAlign = 'right';
-    ctx.fillText((k.harga*k.jumlah).toLocaleString('id-ID'), 380, y);
-    ctx.textAlign = 'left';
-    y += 30;
-  });
-  ctx.strokeStyle = 'black';
-  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 25;
-  ctx.font = 'bold 16px Arial';
-  ctx.fillText('TOTAL', 20, y);
-  ctx.textAlign = 'right';
-  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25;
-  ctx.textAlign = 'left';
-  ctx.font = '14px Arial';
-  ctx.fillText('BAYAR', 20, y);
-  ctx.textAlign = 'right';
-  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25;
-  ctx.textAlign = 'left';
-  ctx.fillText('KEMBALI', 20, y);
-  ctx.textAlign = 'right';
-  ctx.fillText('Rp 0', 380, y); y += 25;
-  ctx.setLineDash([5,5]);
-  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 30;
-  ctx.setLineDash([]);
+function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon){
+  let isi = `<h2 style="text-align:center">STRUK SARAHMART</h2><p>ID: ${id}</p><p>Tanggal: ${new Date().toLocaleString('id-ID')}</p><hr>`;
+  isi += `<p>Nama: ${nama}</p><p>HP: ${hp}</p><p>Alamat: ${alamat}</p><hr>`;
+  keranjang.forEach(k=>{ isi += `<p>${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}</p>`; });
+  isi += `<hr><h3>Total: Rp ${total.toLocaleString('id-ID')}</h3>`;
   if(jumlahKupon > 0){
-    ctx.fillStyle = '#FFEB3B';
-    ctx.fillRect(20, y-20, 360, 40);
-    ctx.fillStyle = 'black';
-    ctx.font = 'bold 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText(`🎟️ SELAMAT! DAPAT ${jumlahKupon} KUPON 🎟️`, canvas.width/2, y); y += 50;
-    ctx.textAlign = 'left';
+    isi += `<p style="text-align:center;background:#ffeb3b;padding:8px;border-radius:8px;"><b>🎟️ SELAMAT! ANDA MENDAPAT ${jumlahKupon} KUPON UNDIAN 🎟️</b></p>`;
   }
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${id}`;
-  const qrImg = new Image();
-  qrImg.crossOrigin = "anonymous";
-  qrImg.src = qrUrl;
-  await new Promise(resolve => { qrImg.onload = resolve });
-  ctx.drawImage(qrImg, 150, y); y += 110;
-  ctx.font = '12px Arial';
-  ctx.fillStyle = '#666';
-  ctx.textAlign = 'center';
-  ctx.fillText('Scan untuk detail transaksi', canvas.width/2, y); y += 40;
-  ctx.fillStyle = '#f3f3f3';
-  ctx.fillRect(0, y-20, canvas.width, 80);
-  ctx.fillStyle = 'black';
-  ctx.font = '20px Arial';
-  ctx.fillText('🙏✨', canvas.width/2, y);
-  ctx.font = 'bold 16px Arial';
-  ctx.fillText('TERIMA KASIH', canvas.width/2, y+25);
-  ctx.font = '14px Arial';
-  ctx.fillText('Sudah berbelanja di SARAHMART', canvas.width/2, y+45);
-  const dataURL = canvas.toDataURL('image/jpeg', 0.9);
-  const newTab = window.open();
-  newTab.document.write(`
-    <h2 style="text-align:center">Struk SARAHMART</h2>
-    <img src="${dataURL}" style="width:100%;max-width:400px;display:block;margin:auto;border:1px solid #ccc">
-    <p style="text-align:center">Tekan lama gambar > Simpan Gambar</p>
-    <button onclick="window.close()" style="display:block;margin:10px auto;padding:10px 20px">Tutup</button>
-  `);
+  isi += `<p style="text-align:center">Terimakasih 🙏</p>`;
+  let win = window.open('', '', 'height=700,width=400');
+  win.document.write('<html><head><title>Struk</title><style>body{font-family:Arial;font-size:12px;padding:10px}h2{margin:0;text-align:center}hr{border:1px dashed #000;margin:8px 0}p{margin:3px 0}h3{text-align:right}</style></head><body>' + isi + '</body></html>');
+  win.document.close();
+  win.print();
 }
 
-function showNotif(pesan, tipe){ console.log(pesan); }
+function showNotif(pesan, tipe){
+  console.log(pesan);
+}
 
-// PANGGILAN AWAL
-cekLogin();
 loadProduk();
 updateKeranjangBar();
-
-// CEK NEK BALI SEKO VERIFIKASI EMAIL
-db.auth.onAuthStateChange(async (event, session) => {
-  if (event == "SIGNED_IN") {
-    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
-    if(dataSimpen){
-      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
-      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
-      localStorage.removeItem('data_daftar_sementara');
-    }
-    cekLogin();
-    showNotif('✅ Email Berhasil Diverifikasi!', 'sukses');
-  }
-})
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
