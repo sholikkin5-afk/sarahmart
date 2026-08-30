@@ -75,7 +75,7 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 .pagination span{font-weight:bold;color:#1976d2}
 
     /* POPUP KERANJANG - TOTAL PINDAH MENE */
-.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end}
+.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end;justify-content:center}
 .popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:20px 20px 0 0;padding:18px;max-height:85vh;overflow-y:auto}
 .popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .popup-header h3{font-size:18px;color:#1976d2}
@@ -191,8 +191,8 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
   </div>
 </div>
 
-<!-- POPUP LOGIN VERSI LINK EMAIL -->
-<div class="popup" id="popupLogin" style="display:flex;z-index:30">
+<!-- POPUP LOGIN VERSI LINK EMAIL - DEFAULT KETUTUP -->
+<div class="popup" id="popupLogin" style="display:none;z-index:30;align-items:center">
   <div class="popup-content" style="max-width:400px">
     <h3 style="text-align:center;color:#1976d2">🔐 Selamat Datang</h3>
     <p style="text-align:center;font-size:13px;color:#666">Kita kirim link verifikasi neng Email</p>
@@ -417,7 +417,7 @@ function tampilKeranjang(){const container = document.getElementById('isi-keranj
   cekKupon(total);
 }
 
-// FUNGSI LOGIN BARU VERSI LINK EMAIL
+// FUNGSI LOGIN BARU VERSI LINK EMAIL - FINAL
 async function kirimLinkVerifikasi(){
   const nama = document.getElementById('login_nama').value.trim();
   const email = document.getElementById('login_email').value.trim();
@@ -438,40 +438,39 @@ async function kirimLinkVerifikasi(){
   showNotif('Cek email untuk verifikasi', 'sukses');
 }
 
+// INI INTI NE BEN POPUP GAK METU TERUS
 async function cekLogin() {
-  // CEK 1: LIAT URL DULU ADA TOKEN GAK
+  // STEP 1: CEK TOKO NEK ONO TOKEN SEKO EMAIL
   const hash = window.location.hash;
   if(hash.includes('access_token')){
-    // Nek ono token, paksa Supabase moco
-    await db.auth.getSession();
-    // Terus resik i URL ben gak baleni maneh
-    window.location.hash = '';
+    await db.auth.getSession(); // Paksa Supabase moco token
+    window.location.hash = ''; // Resik i URL
   }
 
-  // CEK 2: APAKAH WES LOGIN
-  const { data: { session } } = await db.auth.getSession();
+  // STEP 2: CEK WES LOGIN OPO DURUNG
+  const { data: { session } = await db.auth.getSession();
+  const dataLokal = JSON.parse(localStorage.getItem('pelanggan_sarahmart'));
   
-  if(session){
-    // NEK WES LOGIN
-    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
-    if(dataSimpen){
-      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
-      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
-      localStorage.removeItem('data_daftar_sementara');
-    }
+  if(session && dataLokal){
+    dataPelanggan = dataLokal;
+    // NEK WES LOGIN -> TUTUP POPUP, TAMPILNO TOKO
     document.getElementById('popupLogin').style.display = 'none';
-    document.getElementById('kontenUtama').style.display = 'block';
-    document.getElementById('infoUser').innerText = `Halo, ${dataSimpen?.nama || session.user.email}`;
+    document.getElementById('btnGantiAkun').style.display = 'block';
+    document.getElementById('nama_pelanggan').value = dataLokal.nama;
+    document.getElementById('no_hp').value = dataLokal.no_hp;
+    document.getElementById('alamat').value = dataLokal.alamat;
   } else {
-    // NEK DURUNG LOGIN
-    document.getElementById('popupLogin').style.display = 'block';
-    document.getElementById('kontenUtama').style.display = 'none';
+    dataPelanggan = null;
+    // NEK DURUNG LOGIN -> METOKNO POPUP
+    document.getElementById('popupLogin').style.display = 'flex';
+    document.getElementById('btnGantiAkun').style.display = 'none';
   }
 }
 
 function logout(){
   if(confirm('Yakin mau ganti akun?')){
     localStorage.removeItem('pelanggan_sarahmart');
+    db.auth.signOut();
     dataPelanggan = null;
     keranjang = [];
     updateKeranjangBar();
@@ -624,49 +623,8 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
 
 function showNotif(pesan, tipe){ console.log(pesan); }
 
-// CEK SESSION PAS BALI SEKO EMAIL
-async function cekSessionAwal(){
-  const { data: { session } } = await db.auth.getSession()
-  if(session){
-    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
-    if(dataSimpen){
-      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
-      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
-      localStorage.removeItem('data_daftar_sementara');
-    }
-    cekLogin();
-  }
-}
-cekSessionAwal(); // PANGGIL DISIK
-
-// KODE PENYELAMAT - CEK LOGIN OTOMATIS
-async function cekLoginOtomatis() {
-  // 1. Cek ono session seko link email gak
-  const { data: { session } } = await db.auth.getSession();
-  
-  if(session){
-    // Nek ono session berarti wes verifikasi
-    
-    // 2. Simpen data pelanggan ke tabel
-    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
-    if(dataSimpen){
-      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
-      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
-      localStorage.removeItem('data_daftar_sementara');
-    }
-    
-    // 3. Tutup popup + tampilno toko
-    cekLogin(); 
-  } else {
-    // Nek durung login, tetep tampilno popup
-    cekLogin();
-  }
-}
-
-// GANTI loadProduk(); sing neng paling ngisor dadi:
-cekLoginOtomatis();
-loadProduk();
-
+// PANGGILAN AWAL
+cekLogin();
 loadProduk();
 updateKeranjangBar();
 
