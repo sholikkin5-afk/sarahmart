@@ -624,6 +624,34 @@ async function cekSessionAwal(){
 }
 cekSessionAwal(); // PANGGIL DISIK
 
+// KODE PENYELAMAT - CEK LOGIN OTOMATIS
+async function cekLoginOtomatis() {
+  // 1. Cek ono session seko link email gak
+  const { data: { session } } = await db.auth.getSession();
+  
+  if(session){
+    // Nek ono session berarti wes verifikasi
+    
+    // 2. Simpen data pelanggan ke tabel
+    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
+    if(dataSimpen){
+      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
+      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
+      localStorage.removeItem('data_daftar_sementara');
+    }
+    
+    // 3. Tutup popup + tampilno toko
+    cekLogin(); 
+  } else {
+    // Nek durung login, tetep tampilno popup
+    cekLogin();
+  }
+}
+
+// GANTI loadProduk(); sing neng paling ngisor dadi:
+cekLoginOtomatis();
+loadProduk();
+
 loadProduk();
 updateKeranjangBar();
 
