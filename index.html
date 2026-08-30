@@ -438,19 +438,34 @@ async function kirimLinkVerifikasi(){
   showNotif('Cek email untuk verifikasi', 'sukses');
 }
 
-function cekLogin(){
-  const simpen = localStorage.getItem('pelanggan_sarahmart');
-  if(simpen){
-    dataPelanggan = JSON.parse(simpen);
+async function cekLogin() {
+  // CEK 1: LIAT URL DULU ADA TOKEN GAK
+  const hash = window.location.hash;
+  if(hash.includes('access_token')){
+    // Nek ono token, paksa Supabase moco
+    await db.auth.getSession();
+    // Terus resik i URL ben gak baleni maneh
+    window.location.hash = '';
+  }
+
+  // CEK 2: APAKAH WES LOGIN
+  const { data: { session } } = await db.auth.getSession();
+  
+  if(session){
+    // NEK WES LOGIN
+    const dataSimpen = JSON.parse(localStorage.getItem('data_daftar_sementara'));
+    if(dataSimpen){
+      await db.from('pelanggan').upsert(dataSimpen, {onConflict: 'email'});
+      localStorage.setItem('pelanggan_sarahmart', JSON.stringify(dataSimpen));
+      localStorage.removeItem('data_daftar_sementara');
+    }
     document.getElementById('popupLogin').style.display = 'none';
-    document.getElementById('btnGantiAkun').style.display = 'block';
-    document.getElementById('nama_pelanggan').value = dataPelanggan.nama;
-    document.getElementById('no_hp').value = dataPelanggan.no_hp;
-    document.getElementById('alamat').value = dataPelanggan.alamat;
-    document.getElementById('cari-pesanan').value = dataPelanggan.no_hp;
+    document.getElementById('kontenUtama').style.display = 'block';
+    document.getElementById('infoUser').innerText = `Halo, ${dataSimpen?.nama || session.user.email}`;
   } else {
-    document.getElementById('popupLogin').style.display = 'flex';
-    document.getElementById('btnGantiAkun').style.display = 'none';
+    // NEK DURUNG LOGIN
+    document.getElementById('popupLogin').style.display = 'block';
+    document.getElementById('kontenUtama').style.display = 'none';
   }
 }
 
