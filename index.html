@@ -358,7 +358,12 @@ function filterKategoriDropdown(kategori){
   document.getElementById('btn-reset-filter').style.display = kategori === 'Semua'? 'none' : 'block';
 }
 
-function tampilProduk(){const container = document.getElementById('daftar-produk'); container.innerHTML = ""; let start = (halamanAktif - 1) * perHalaman; let end = start + perHalaman; let dataTampil = produkFilter.slice(start, end); if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; } dataTampil.forEach((p)=>{const today = new Date().toISOString().split('T')[0]; let diskonAktif = p.diskon && p.diskon > 0; if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false; const btnDisabled = p.stok <= 0? 'disabled' : ''; const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`; let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`; let badgeDiskon = ''; let hargaFinal = p.harga; if(diskonAktif){hargaFinal = p.harga - (p.harga * p.diskon / 100); hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`; badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;} container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;}); updatePagination();}
+function tampilProduk(){
+  const container = document.getElementById('daftar-produk'); 
+  container.innerHTML = ""; 
+  let start = (halamanAktif - 1) * perHalaman; 
+  let end = start + perHalaman; 
+  let dataTampil = produkFilter.slice(start, end); if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; } dataTampil.forEach((p)=>{const today = new Date().toISOString().split('T')[0]; let diskonAktif = p.diskon && p.diskon > 0; if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false; const btnDisabled = p.stok <= 0? 'disabled' : ''; const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`; let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`; let badgeDiskon = ''; let hargaFinal = p.harga; if(diskonAktif){hargaFinal = p.harga - (p.harga * p.diskon / 100); hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`; badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;} container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;}); updatePagination();}
 function cariProduk(){const keyword = document.getElementById('cari').value.toLowerCase(); produkFilter = allProduk; if(kategoriAktif!== 'Semua'){ produkFilter = produkFilter.filter(p => p.deskripsi.includes(kategoriAktif)); } if(keyword){ produkFilter = produkFilter.filter(p => p.nama.toLowerCase().includes(keyword)); } halamanAktif = 1; tampilProduk();}
 function gantiHalaman(arah){ halamanAktif += arah; tampilProduk(); window.scrollTo(0, 300); }
 function updatePagination(){const totalHalaman = Math.ceil(produkFilter.length / perHalaman); document.getElementById('info-halaman').innerText = `Hal ${halamanAktif} dari ${totalHalaman}`; document.getElementById('btn-prev').disabled = halamanAktif == 1; document.getElementById('btn-next').disabled = halamanAktif == totalHalaman || totalHalaman == 0;}
@@ -454,19 +459,128 @@ async function kurangiStok(){
   }
 }
 
-function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon){
-  let isi = `<h2 style="text-align:center">STRUK SARAHMART</h2><p>ID: ${id}</p><p>Tanggal: ${new Date().toLocaleString('id-ID')}</p><hr>`;
-  isi += `<p>Nama: ${nama}</p><p>HP: ${hp}</p><p>Alamat: ${alamat}</p><hr>`;
-  keranjang.forEach(k=>{ isi += `<p>${k.nama} x${k.jumlah} = Rp ${(k.harga*k.jumlah).toLocaleString('id-ID')}</p>`; });
-  isi += `<hr><h3>Total: Rp ${total.toLocaleString('id-ID')}</h3>`;
+async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKeranjang){
+  // Buat canvas go gambar struk
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 400;
+  
+  // Hitung tinggi otomatis
+  let tinggi = 650 + (dataKeranjang.length * 50);
+  if(jumlahKupon > 0) tinggi += 60;
+  canvas.height = tinggi;
+
+  // WARNA HEADER GRADASI
+  const gradient = ctx.createLinearGradient(0, 0, 0, 100);
+  gradient.addColorStop(0, '#8B5CF6');
+  gradient.addColorStop(1, '#6366F1');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, 100);
+
+  // LOGO - pake logo.jpg mu
+  const logo = new Image();
+  logo.src = 'logo.jpg';
+  await new Promise(resolve => { logo.onload = resolve });
+  ctx.drawImage(logo, 150, 15, 100, 50);
+
+  // TEKS HEADER
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 24px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText('SARAHMART', canvas.width/2, 75);
+  
+  ctx.font = '14px Arial';
+  ctx.fillText('MBABREK RT 4C CAMPLONK', canvas.width/2, 95);
+
+  // ISI STRUK
+  ctx.fillStyle = 'black';
+  ctx.textAlign = 'left';
+  let y = 130;
+  
+  ctx.font = '14px monospace';
+  ctx.fillText(`No  : ${id}`, 20, y); y += 25;
+  ctx.fillText(`Tgl : ${new Date().toLocaleString('id-ID')}`, 20, y); y += 25;
+  ctx.fillText(`Kasir: SARAH`, 20, y); y += 25;
+  
+  ctx.strokeStyle = '#ccc';
+  ctx.setLineDash([5,5]);
+  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 20;
+  ctx.setLineDash([]);
+
+  // DAFTAR PRODUK
+  dataKeranjang.forEach(k=>{
+    ctx.font = 'bold 14px Arial';
+    ctx.fillText(k.nama, 20, y); y += 20;
+    ctx.font = '14px monospace';
+    ctx.fillText(`${k.jumlah} x ${k.harga.toLocaleString('id-ID')}`, 20, y);
+    ctx.textAlign = 'right';
+    ctx.fillText((k.harga*k.jumlah).toLocaleString('id-ID'), 380, y);
+    ctx.textAlign = 'left';
+    y += 30;
+  });
+
+  ctx.strokeStyle = 'black';
+  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 25;
+
+  // TOTAL
+  ctx.font = 'bold 16px Arial';
+  ctx.fillText('TOTAL', 20, y);
+  ctx.textAlign = 'right';
+  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25;
+  ctx.textAlign = 'left';
+  
+  ctx.font = '14px Arial';
+  ctx.fillText('BAYAR', 20, y);
+  ctx.textAlign = 'right';
+  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25; // default bayar = total
+  ctx.textAlign = 'left';
+  ctx.fillText('KEMBALI', 20, y);
+  ctx.textAlign = 'right';
+  ctx.fillText('Rp 0', 380, y); y += 25;
+
+  ctx.setLineDash([5,5]);
+  ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 30;
+  ctx.setLineDash([]);
+
+  // KUPON
   if(jumlahKupon > 0){
-    isi += `<p style="text-align:center;background:#ffeb3b;padding:8px;border-radius:8px;"><b>🎟️ SELAMAT! ANDA MENDAPAT ${jumlahKupon} KUPON UNDIAN 🎟️</b></p>`;
+    ctx.fillStyle = '#FFEB3B';
+    ctx.fillRect(20, y-20, 360, 40);
+    ctx.fillStyle = 'black';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`🎟️ SELAMAT! DAPAT ${jumlahKupon} KUPON 🎟️`, canvas.width/2, y); y += 50;
+    ctx.textAlign = 'left';
   }
-  isi += `<p style="text-align:center">Terimakasih 🙏</p>`;
-  let win = window.open('', '', 'height=700,width=400');
-  win.document.write('<html><head><title>Struk</title><style>body{font-family:Arial;font-size:12px;padding:10px}h2{margin:0;text-align:center}hr{border:1px dashed #000;margin:8px 0}p{margin:3px 0}h3{text-align:right}</style></head><body>' + isi + '</body></html>');
-  win.document.close();
-  win.print();
+
+  // QR CODE - pake API gratis
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${id}`;
+  const qrImg = new Image();
+  qrImg.src = qrUrl;
+  await new Promise(resolve => { qrImg.onload = resolve });
+  ctx.drawImage(qrImg, 150, y); y += 110;
+  
+  ctx.font = '12px Arial';
+  ctx.fillStyle = '#666';
+  ctx.textAlign = 'center';
+  ctx.fillText('Scan untuk detail transaksi', canvas.width/2, y); y += 40;
+
+  // FOOTER
+  ctx.fillStyle = '#f3f3f3';
+  ctx.fillRect(0, y-20, canvas.width, 80);
+  ctx.fillStyle = 'black';
+  ctx.font = '20px Arial';
+  ctx.fillText('🙏✨', canvas.width/2, y);
+  ctx.font = 'bold 16px Arial';
+  ctx.fillText('TERIMA KASIH', canvas.width/2, y+25);
+  ctx.font = '14px Arial';
+  ctx.fillText('Sudah berbelanja di SARAHMART', canvas.width/2, y+45);
+
+  // DOWNLOAD JADI JPG
+  const link = document.createElement('a');
+  link.download = `Struk-${id}.jpg`;
+  link.href = canvas.toDataURL('image/jpeg', 0.9);
+  link.click();
 }
 
 function showNotif(pesan, tipe){
