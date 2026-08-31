@@ -74,8 +74,10 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 .pagination span{font-weight:bold;color:#1976d2}
 
     /* POPUP KERANJANG - TOTAL PINDAH MENE */
-.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end}
-.popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:20px 20px 0 0;padding:18px;max-height:85vh;overflow-y:auto}
+.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end;animation:fadeIn 0.3s}
+.popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:20px 20px 0 0;padding:18px;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .popup-header h3{font-size:18px;color:#1976d2}
 .close-btn{font-size:24px;border:none;background:none;cursor:pointer;color:#666}
@@ -106,12 +108,12 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
     /* ===== VERSI DESKTOP 4 KOLOM ===== */
     @media(min-width: 768px){
       body{padding-top:220px}
-  .header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
-  .produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
-  .card img{height:180px}
-  .card h3{height:40px;font-size:15px}
-  .banner-slider{height:240px; border-radius:20px; margin:15px auto}
-  .popup-content{max-width:700px}
+ .header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
+ .produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
+ .card img{height:180px}
+ .card h3{height:40px;font-size:15px}
+ .banner-slider{height:240px; border-radius:20px; margin:15px auto}
+ .popup-content{max-width:700px}
     }
     /* ANTI BADGE NYASAR */
 .badge-diskon{pointer-events:none}
@@ -120,7 +122,6 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 <body>
 
 <header id="main-header">
-  <!-- BARIS 1: LOGO TENGAH + KERANJANG KAN -->
   <div class="header-atas">
     <div></div>
     <div class="logo-wrap">
@@ -129,7 +130,6 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
     <div class="icon-keranjang-atas" onclick="bukaKeranjang()">🛒<div class="lencana" id="jumlah-lencana">0</div></div>
   </div>
 
-  <!-- BARIS 2: SEARCH 3:1 KATEGORI -->
   <div class="header-bawah">
     <div class="search"><input type="text" id="cari" placeholder="🔍 Cari produk di SARAHmart..." onkeyup="cariProduk()"></div>
     <div class="kategori-wrap">
@@ -139,7 +139,6 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
     </div>
   </div>
 
-  <!-- TOMBOL MENU -->
   <div class="menu-atas">
     <button class="btn-menu aktif" onclick="gantiMenu('produk', this)">🛍️ Produk</button>
     <button class="btn-menu" onclick="gantiMenu('pesanan', this)">📦 Pesanan Saya</button>
@@ -172,17 +171,12 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
   <div id="list-pesanan" style="margin-top:15px"></div>
 </div>
 
-<!-- FOOTER KERANJANG DIHAPUS -->
-
 <div class="popup" id="popupKeranjang">
   <div class="popup-content">
     <div class="popup-header"><h3>🛒 Keranjang SARAHmart</h3><button class="close-btn" onclick="tutupKeranjang()">x</button></div>
     <div id="notif-kupon"></div>
     <div id="isi-keranjang" style="text-align:center; color:#666; padding:20px;">Keranjang masih kosong</div>
-
-    <!-- TOTAL PINDAH MENE -->
     <div class="total-bar" id="total-keranjang"></div>
-
     <div class="form-pelanggan">
       <h4 style="color:#1976d2">Data Pengiriman</h4>
       <input type="text" id="nama_pelanggan" placeholder="Nama Lengkap">
@@ -190,6 +184,16 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
       <textarea id="alamat" placeholder="Alamat Lengkap" rows="2"></textarea>
     </div>
     <button class="btn-wa" onclick="kirimPesanan()">💬 Kirim Pesanan via WhatsApp</button>
+  </div>
+</div>
+
+<!-- POPUP NOTIF CANTIK BARU -->
+<div class="popup" id="popupNotif" style="z-index:999;align-items:center">
+  <div class="popup-content" style="max-width:400px;text-align:center;padding:25px;border-radius:20px">
+    <div id="icon-notif" style="font-size:50px;margin-bottom:10px">✅</div>
+    <h3 id="judul-notif" style="color:#1976d2;margin-bottom:8px">Sukses</h3>
+    <p id="pesan-notif" style="color:#666;margin-bottom:20px">Isi data pengiriman dulu!</p>
+    <button onclick="tutupNotif()" style="background:linear-gradient(135deg, #1976d2 0%, #00c853 100%);color:white;border:none;padding:12px 30px;border-radius:10px;font-weight:bold;cursor:pointer">Oke</button>
   </div>
 </div>
 
@@ -202,12 +206,12 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
   let produk = []; let allProduk = []; let keranjang = []; let kategoriAktif = 'Semua';
   let halamanAktif = 1; const perHalaman = 10; let produkFilter = [];
   let bannerIndex = 0; let bannerInterval; let startX = 0; let isDragging = false; let dragThreshold = false;
-  let settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null}; // DEFAULT MATI
+  let settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
 
 async function loadSettingPromo(){
   const {data} = await db.from('setting').select('*').eq('key','promo_undian').single();
   if(data && data.value){
-    settingPromo = typeof data.value === 'string'? JSON.parse(data.value) : data.value; // IKI DI BENAKNO
+    settingPromo = typeof data.value === 'string'? JSON.parse(data.value) : data.value;
   } else {
     settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
   }
@@ -219,48 +223,20 @@ async function loadBanner(){
   track.innerHTML = '';
   dots.innerHTML = '';
   const today = new Date().toISOString().split('T')[0];
-
   let bannerOtomatis = [];
 
-// BANNER KUPON UNDIAN PALING NDUWUR - VERSI KOLASE
 if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_akhir)){
   let tglText = settingPromo.tgl_akhir? `Berlaku s/d ${new Date(settingPromo.tgl_akhir).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}` : `Berlaku kelipatan!`;
-  
   let gambarKolase = '';
   const imgs = settingPromo.gambar_urls || [];
-
   if(imgs.length === 0){
-    // Nek gak ono gambar
     gambarKolase = `<div style="background:linear-gradient(135deg, #ff9800 0%, #ff1744 100%);display:flex;align-items:center;justify-content:center;height:100%;color:white;text-align:center"><div><div style="font-size:24px">🎟️🎁🎟️</div><div>Hadiah Menarik Menanti!</div></div></div>`;
-  } 
-  else if(imgs.length === 1){
-    gambarKolase = `<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;">`;
   }
-  
-  else if(imgs.length === 2){
-    gambarKolase = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"></div>`;
-  }
-  else if(imgs.length === 3){
-    gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><div style="display:grid;grid-template-rows:1fr 1fr;gap:3px"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover;"></div></div>`;
-  }
-  else { // 4 - 6 gambar
-    gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:100%">`;
-    gambarKolase += `<img src="${imgs[0]}" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;">`; // Hadiah utama gede
-    for(let i=1; i<5 && i<imgs.length; i++){
-      gambarKolase += `<img src="${imgs[i]}" style="width:100%;height:100%;object-fit:cover;">`;
-    }
-    if(imgs.length > 5){
-      gambarKolase += `<div style="background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px;">+${imgs.length-5}</div>`;
-    }
-    gambarKolase += `</div>`;
-  }
-
-  bannerOtomatis.push({
-    judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`,
-    subjudul: `${tglText} Undian diundi tiap akhir bulan`,
-    gambar_html: gambarKolase,
-    link: `#produk`
-  });
+  else if(imgs.length === 1){ gambarKolase = `<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;">`; }
+  else if(imgs.length === 2){ gambarKolase = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"></div>`; }
+  else if(imgs.length === 3){ gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><div style="display:grid;grid-template-rows:1fr 1fr;gap:3px"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover;"></div></div>`; }
+  else { gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:100%">`; gambarKolase += `<img src="${imgs[0]}" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;">`; for(let i=1; i<5 && i<imgs.length; i++){ gambarKolase += `<img src="${imgs[i]}" style="width:100%;height:100%;object-fit:cover;">`; } if(imgs.length > 5){ gambarKolase += `<div style="background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px;">+${imgs.length-5}</div>`; } gambarKolase += `</div>`; }
+  bannerOtomatis.push({ judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`, subjudul: `${tglText} Undian diundi tiap akhir bulan`, gambar_html: gambarKolase, link: `#produk` });
 }
 
   const produkDiskon = produk.filter(p=>p.diskon>0 && p.stok>0 && (!p.tgl_kadaluarsa || p.tgl_kadaluarsa >= today));
@@ -278,14 +254,9 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
       const tglSekarang = new Date();
       const selisihWaktu = tglExp - tglSekarang;
       const selisihHari = Math.ceil(selisihWaktu / (1000 * 60 * 60 * 24));
-      if(selisihHari <= 3 && selisihHari >= 0){
-        teksTgl = `🔥 TINGGAL ${selisihHari} HARI LAGI!! BERLAKU S/D ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}`;
-      }else {
-        teksTgl = `Berlaku s/d ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}`;
-      }
-    } else {
-      teksTgl = `📦 SELAMA PERSEDIAAN MASIH ADA`;
-    }
+      if(selisihHari <= 3 && selisihHari >= 0){ teksTgl = `🔥 TINGGAL ${selisihHari} HARI LAGI!! BERLAKU S/D ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}`; }
+      else { teksTgl = `Berlaku s/d ${tglExp.toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}`; }
+    } else { teksTgl = `📦 SELAMA PERSEDIAAN MASIH ADA`; }
     const jmlProduk = daftarProduk.length;
     let gambarKolase = `<div style="display:grid;height:100%;background:#ff1744;padding:3px;gap:3px;">`;
     if(jmlProduk == 1){gambarKolase += `<div style="grid-column:1/3;grid-row:1/3;overflow:hidden;border-radius:5px;"><img src="${produkUtama.gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;}
@@ -297,12 +268,7 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
   }
 
   if(bannerOtomatis.length == 1){
-    bannerOtomatis.push({
-      judul: `SELAMAT DATANG DI SARAHMART`,
-      subjudul: ``,
-      gambar_html: `<img src="logo.jpg" style="width:100%;height:100%;object-fit:contain;background:white">`,
-      link: `#produk`
-    })
+    bannerOtomatis.push({ judul: `SELAMAT DATANG DI SARAHMART`, subjudul: ``, gambar_html: `<img src="logo.jpg" style="width:100%;height:100%;object-fit:contain;background:white">`, link: `#produk` })
   }
 
   bannerOtomatis.forEach((b,i)=>{
@@ -312,9 +278,7 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
   clearInterval(bannerInterval);
   bannerIndex = 0;
   updateBannerPosition();
-  if(bannerOtomatis.length > 1){
-    bannerInterval = setInterval(()=>{nextBanner();},4000);
-  }
+  if(bannerOtomatis.length > 1){ bannerInterval = setInterval(()=>{nextBanner();},4000); }
   initBannerSwipe();
 }
 
@@ -323,30 +287,22 @@ function nextBanner(){const total = document.querySelectorAll('.banner-item').le
 function prevBanner(){const total = document.querySelectorAll('.banner-item').length; bannerIndex = (bannerIndex-1+total)%total; updateBannerPosition();}
 function initBannerSwipe(){const track = document.getElementById('banner-track'); const slider = document.querySelector('.banner-slider');slider.addEventListener('touchstart', e => {startX = e.touches[0].clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('touchmove', e => {if(!isDragging) return; const diff = e.touches[0].clientX - startX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('touchend', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.changedTouches[0].clientX - startX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});let startMouseX = 0;slider.addEventListener('mousedown', e => {startMouseX = e.clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('mousemove', e => {if(!isDragging) return; const diff = e.clientX - startMouseX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('mouseup', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.clientX - startMouseX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});slider.addEventListener('mouseleave', ()=>{if(isDragging){isDragging=false;track.classList.remove('dragging');updateBannerPosition();bannerInterval = setInterval(nextBanner,4000);}});}
 function filterBanner(link){if(dragThreshold) return; if(!link) return; if(link.startsWith('diskon')){const persen = link.replace('diskon',''); filterProdukByDiskon(persen); document.getElementById('daftar-produk').scrollIntoView({behavior: 'smooth'});} else if(link.startsWith('#')){document.querySelector(link)?.scrollIntoView({behavior: 'smooth'});}}
-function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('select-kategori').value = 'Semua'; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotif(`Menampilkan produk diskon ${persen}%`,'sukses');}
+function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('select-kategori').value = 'Semua'; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotifAyu(`Menampilkan produk diskon ${persen}%`,'sukses');}
 function resetFilter(){produkFilter = allProduk; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'none';}
 function gantiMenu(menu, el){document.querySelectorAll('.btn-menu').forEach(b=>b.classList.remove('aktif')); el.classList.add('aktif'); document.getElementById('halaman-produk').style.display = menu=='produk'?'block':'none'; document.getElementById('halaman-pesanan').style.display = menu=='pesanan'?'block':'none';}
-async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){alert('Isi No HP dulu');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false}); const container = document.getElementById('list-pesanan'); if(!data || data.length==0){container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>';return;} container.innerHTML=''; data.forEach(p=>{let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai'; let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : ''; container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;})}
+async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){showNotifAyu('Isi No HP dulu','gagal');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false}); const container = document.getElementById('list-pesanan'); if(!data || data.length==0){container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>';return;} container.innerHTML=''; data.forEach(p=>{let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai'; let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : ''; container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;})}
 
 async function loadProduk(){
-  await loadSettingPromo(); // LOAD SETTING DULU
+  await loadSettingPromo();
   const container = document.getElementById('daftar-produk');
   const { data, error } = await db.from('prodak').select('*').order('deskripsi', { ascending: true }).order('nama', { ascending: true });
   if(error){ container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; return; }
   if(!data || data.length === 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; return; }
-  
-  // INI TAMBAHAN BEN ACAK
-  data.sort(() => Math.random() - 0.5); 
-
-  produk = data;
-  allProduk = data;
-  produkFilter = data;
-  buatTombolKategori();
-  tampilProduk();
-  loadBanner();
+  data.sort(() => Math.random() - 0.5);
+  produk = data; allProduk = data; produkFilter = data;
+  buatTombolKategori(); tampilProduk(); loadBanner();
 }
 
-// FUNGSI DROPDOWN KATEGORI OTOMATIS
 function buatTombolKategori(){
   const select = document.getElementById('select-kategori');
   const kategoriUnik = [...new Set(allProduk.map(p => p.deskripsi).filter(k => k))];
@@ -363,35 +319,112 @@ function filterKategoriDropdown(kategori){
 }
 
 function tampilProduk(){
-  const container = document.getElementById('daftar-produk'); 
-  container.innerHTML = ""; 
-  let start = (halamanAktif - 1) * perHalaman; 
-  let end = start + perHalaman; 
-  let dataTampil = produkFilter.slice(start, end); if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; } dataTampil.forEach((p)=>{const today = new Date().toISOString().split('T')[0]; let diskonAktif = p.diskon && p.diskon > 0; if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false; const btnDisabled = p.stok <= 0? 'disabled' : ''; const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`; let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`; let badgeDiskon = ''; let hargaFinal = p.harga; if(diskonAktif){hargaFinal = p.harga - (p.harga * p.diskon / 100); hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`; badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;} container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;}); updatePagination();}
-function cariProduk(){const keyword = document.getElementById('cari').value.toLowerCase(); produkFilter = allProduk; if(kategoriAktif!== 'Semua'){ produkFilter = produkFilter.filter(p => p.deskripsi.includes(kategoriAktif)); } if(keyword){ produkFilter = produkFilter.filter(p => p.nama.toLowerCase().includes(keyword)); } halamanAktif = 1; tampilProduk();}
+  const container = document.getElementById('daftar-produk');
+  container.innerHTML = "";
+  let start = (halamanAktif - 1) * perHalaman;
+  let end = start + perHalaman;
+  let dataTampil = produkFilter.slice(start, end);
+  if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; }
+  dataTampil.forEach((p)=>{
+    const today = new Date().toISOString().split('T')[0];
+    let diskonAktif = p.diskon && p.diskon > 0;
+    if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false;
+    const btnDisabled = p.stok <= 0? 'disabled' : '';
+    const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`;
+    let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`;
+    let badgeDiskon = '';
+    let hargaFinal = p.harga;
+    if(diskonAktif){
+      hargaFinal = p.harga - (p.harga * p.diskon / 100);
+      hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> Rp ${hargaFinal.toLocaleString('id-ID')}`;
+      badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
+    }
+    container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
+  });
+  updatePagination();
+}
+
+function cariProduk(){
+  const keyword = document.getElementById('cari').value.toLowerCase();
+  produkFilter = allProduk;
+  if(kategoriAktif!== 'Semua'){ produkFilter = produkFilter.filter(p => p.deskripsi.includes(kategoriAktif)); }
+  if(keyword){ produkFilter = produkFilter.filter(p => p.nama.toLowerCase().includes(keyword)); }
+  halamanAktif = 1;
+  tampilProduk();
+}
+
 function gantiHalaman(arah){ halamanAktif += arah; tampilProduk(); window.scrollTo(0, 300); }
-function updatePagination(){const totalHalaman = Math.ceil(produkFilter.length / perHalaman); document.getElementById('info-halaman').innerText = `Hal ${halamanAktif} dari ${totalHalaman}`; document.getElementById('btn-prev').disabled = halamanAktif == 1; document.getElementById('btn-next').disabled = halamanAktif == totalHalaman || totalHalaman == 0;}
-function tambahKeranjang(id, hargaFinal, tombol){const itemProduk = produk.find(p => p.id === id); const itemKeranjang = keranjang.find(x=>x.id === id); let jumlahSekarang = itemKeranjang? itemKeranjang.jumlah : 0; if(jumlahSekarang >= itemProduk.stok){ alert(`Stok ${itemProduk.nama} tinggal ${itemProduk.stok}`); return; } if(itemKeranjang){ itemKeranjang.jumlah++ } else{ keranjang.push({...itemProduk, harga: hargaFinal, jumlah:1}) } tombol.innerHTML = '✓ Ditambah'; tombol.style.background = 'linear-gradient(135deg, #00c853 0%, #2e7d32 100%)'; setTimeout(()=>{ tombol.innerHTML = '+ Tambah'; tombol.style.background = 'linear-gradient(135deg, #1976d2 0%, #00c853 100%)'; }, 500); updateKeranjangBar();}
-function ubahJumlah(id, aksi){const item = keranjang.find(x=>x.id === id);const produkAsli = produk.find(p => p.id === id);if(!item) return;if(aksi === 'tambah'){ if(item.jumlah < produkAsli.stok){ item.jumlah++ } else { alert(`Stok maksimal ${produkAsli.stok}`) }}if(aksi === 'kurang'){ item.jumlah-- }if(item.jumlah <= 0){ keranjang = keranjang.filter(x=>x.id!== id) }tampilKeranjang(); updateKeranjangBar();}
-function setJumlah(id, val){const item = keranjang.find(x=>x.id === id);const produkAsli = produk.find(p => p.id === id);if(!item) return;let jumlahBaru = parseInt(val) || 1;if(jumlahBaru > produkAsli.stok){ alert(`Stok maksimal ${produkAsli.stok}`); jumlahBaru = produkAsli.stok; }if(jumlahBaru < 1) jumlahBaru = 1;item.jumlah = jumlahBaru;tampilKeranjang(); updateKeranjangBar();}
+
+function updatePagination(){
+  const totalHalaman = Math.ceil(produkFilter.length / perHalaman);
+  document.getElementById('info-halaman').innerText = `Hal ${halamanAktif} dari ${totalHalaman}`;
+  document.getElementById('btn-prev').disabled = halamanAktif == 1;
+  document.getElementById('btn-next').disabled = halamanAktif == totalHalaman || totalHalaman == 0;
+}
+
+function tambahKeranjang(id, hargaFinal, tombol){
+  const itemProduk = produk.find(p => p.id === id);
+  const itemKeranjang = keranjang.find(x=>x.id === id);
+  let jumlahSekarang = itemKeranjang? itemKeranjang.jumlah : 0;
+  if(jumlahSekarang >= itemProduk.stok){
+    showNotifAyu(`Stok ${itemProduk.nama} tinggal ${itemProduk.stok}`, 'gagal');
+    return;
+  }
+  if(itemKeranjang){ itemKeranjang.jumlah++ }
+  else{ keranjang.push({...itemProduk, harga: hargaFinal, jumlah:1}) }
+  tombol.innerHTML = '✓ Ditambah';
+  tombol.style.background = 'linear-gradient(135deg, #00c853 0%, #2e7d32 100%)';
+  setTimeout(()=>{ tombol.innerHTML = '+ Tambah'; tombol.style.background = 'linear-gradient(135deg, #1976d2 0%, #00c853 100%)'; }, 500);
+  updateKeranjangBar();
+}
+
+function ubahJumlah(id, aksi){
+  const item = keranjang.find(x=>x.id === id);
+  const produkAsli = produk.find(p => p.id === id);
+  if(!item) return;
+  if(aksi === 'tambah'){
+    if(item.jumlah < produkAsli.stok){ item.jumlah++ }
+    else { showNotifAyu(`Stok maksimal ${produkAsli.stok}`, 'gagal') }
+  }
+  if(aksi === 'kurang'){ item.jumlah-- }
+  if(item.jumlah <= 0){ keranjang = keranjang.filter(x=>x.id!== id) }
+  tampilKeranjang(); updateKeranjangBar();
+}
+
+function setJumlah(id, val){
+  const item = keranjang.find(x=>x.id === id);
+  const produkAsli = produk.find(p => p.id === id);
+  if(!item) return;
+  let jumlahBaru = parseInt(val) || 1;
+  if(jumlahBaru > produkAsli.stok){
+    showNotifAyu(`Stok maksimal ${produkAsli.stok}`, 'gagal');
+    jumlahBaru = produkAsli.stok;
+  }
+  if(jumlahBaru < 1) jumlahBaru = 1;
+  item.jumlah = jumlahBaru;
+  tampilKeranjang(); updateKeranjangBar();
+}
+
 function hapusItem(id){ keranjang = keranjang.filter(x=>x.id!== id); tampilKeranjang(); updateKeranjangBar(); }
-function updateKeranjangBar(){let totalItem = keranjang.reduce((a,b)=>a+b.jumlah,0);document.getElementById('jumlah-lencana').innerHTML = totalItem;document.getElementById('jumlah-lencana').style.display = totalItem > 0? 'flex' : 'none';}
+
+function updateKeranjangBar(){
+  let totalItem = keranjang.reduce((a,b)=>a+b.jumlah,0);
+  document.getElementById('jumlah-lencana').innerHTML = totalItem;
+  document.getElementById('jumlah-lencana').style.display = totalItem > 0? 'flex' : 'none';
+}
+
 function bukaKeranjang(){document.getElementById('popupKeranjang').style.display = 'flex'; tampilKeranjang();}
 function tutupKeranjang(){document.getElementById('popupKeranjang').style.display = 'none';}
 
 function cekKupon(total){
   const notifDiv = document.getElementById('notif-kupon');
   const today = new Date().toISOString().split('T')[0];
-
-  // NEK PROMO MATI ATAU WES LEWAT TANGGAL
   if(!settingPromo.aktif || (settingPromo.tgl_akhir && today > settingPromo.tgl_akhir)){
     notifDiv.style.display = 'none';
     return;
   }
-
   const minimal = settingPromo.minimal;
   const jumlahKupon = Math.floor(total / minimal);
-
   if(jumlahKupon > 0){
     notifDiv.innerHTML = `🎉 SELAMAT! Anda dapat ${jumlahKupon} KUPON UNDIAN 🎉<small>Belanja Rp ${total.toLocaleString('id-ID')} = ${jumlahKupon} Kupon. ${settingPromo.tgl_akhir? `Berlaku s/d ${new Date(settingPromo.tgl_akhir).toLocaleDateString('id-ID', {day: 'numeric', month: 'long'})}` : 'Tanpa batas waktu'}</small>`;
     notifDiv.style.display = 'block';
@@ -402,42 +435,55 @@ function cekKupon(total){
   }
 }
 
-function tampilKeranjang(){const container = document.getElementById('isi-keranjang'); const totalEl = document.getElementById('total-keranjang');if(keranjang.length === 0){container.innerHTML = "🛒 Keranjang masih kosong"; totalEl.innerHTML = ""; document.getElementById('notif-kupon').style.display = 'none'; return;}container.innerHTML = ""; let total = 0;keranjang.forEach((k)=>{total += k.harga * k.jumlah;const produkAsli = produk.find(p => p.id === k.id);const btnPlusDisabled = k.jumlah >= produkAsli.stok? 'disabled' : '';container.innerHTML += `<div class="item-cart"><img src="${k.gambar_url}"><div class="item-info"><h4>${k.nama}</h4><p>Rp ${k.harga.toLocaleString('id-ID')}</p><small style="color:#666">Stok: ${produkAsli.stok}</small><div class="qty-btn"><button onclick="ubahJumlah(${k.id},'kurang')">-</button><input type="number" class="qty-input" value="${k.jumlah}" min="1" max="${produkAsli.stok}" onchange="setJumlah(${k.id}, this.value)"><button ${btnPlusDisabled} onclick="ubahJumlah(${k.id},'tambah')">+</button></div><button class="btn-hapus" onclick="hapusItem(${k.id})">🗑️ Hapus</button></div></div>`;
+function tampilKeranjang(){
+  const container = document.getElementById('isi-keranjang');
+  const totalEl = document.getElementById('total-keranjang');
+  if(keranjang.length === 0){
+    container.innerHTML = "🛒 Keranjang masih kosong";
+    totalEl.innerHTML = "";
+    document.getElementById('notif-kupon').style.display = 'none';
+    return;
+  }
+  container.innerHTML = "";
+  let total = 0;
+  keranjang.forEach((k)=>{
+    total += k.harga * k.jumlah;
+    const produkAsli = produk.find(p => p.id === k.id);
+    const btnPlusDisabled = k.jumlah >= produkAsli.stok? 'disabled' : '';
+    container.innerHTML += `<div class="item-cart"><img src="${k.gambar_url}"><div class="item-info"><h4>${k.nama}</h4><p>Rp ${k.harga.toLocaleString('id-ID')}</p><small style="color:#666">Stok: ${produkAsli.stok}</small><div class="qty-btn"><button onclick="ubahJumlah(${k.id},'kurang')">-</button><input type="number" class="qty-input" value="${k.jumlah}" min="1" max="${produkAsli.stok}" onchange="setJumlah(${k.id}, this.value)"><button ${btnPlusDisabled} onclick="ubahJumlah(${k.id},'tambah')">+</button></div><button class="btn-hapus" onclick="hapusItem(${k.id})">🗑️ Hapus</button></div></div>`;
   });
   totalEl.innerHTML = `<span>Total Belanja</span> <span>Rp ${total.toLocaleString('id-ID')}</span>`;
-  cekKupon(total); // PANGGIL FUNGSI KUPON
+  cekKupon(total);
 }
 
 async function kirimPesanan(){
-  if(keranjang.length===0){ alert("Keranjang masih kosong!"); return; }
+  if(keranjang.length===0){ showNotifAyu("Keranjang masih kosong!", 'gagal'); return; }
   const nama = document.getElementById('nama_pelanggan').value;
   const hp = document.getElementById('no_hp').value;
   const alamat = document.getElementById('alamat').value;
-  if(!nama ||!hp ||!alamat){alert("Isi data pengiriman dulu!"); return;}
+  if(!nama ||!hp ||!alamat){showNotifAyu("Isi data pengiriman dulu!", 'gagal'); return;}
 
   let total = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
   const today = new Date().toISOString().split('T')[0];
   let jumlahKupon = 0;
-  // HITUNG KUPON HANYA JIKA PROMO AKTIF
   if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_akhir)){
     jumlahKupon = Math.floor(total / settingPromo.minimal);
   }
 
   const id_pesanan = 'SRH' + Date.now();
 
-  // KIRIM KE DB + TAMBAH data_scan + jumlah_kupon
   const {error: errInsert} = await db.from('pesenan').insert([{
     id_pesanan: id_pesanan,
     data_keranjang: keranjang,
-    data_scan: [], // PENTING GO KASIR SCAN
+    data_scan: [],
     nama_pelanggan: nama,
     no_hp: hp,
     alamat: alamat,
     total_harga: total,
-    jumlah_kupon: jumlahKupon, // SIMPEN KUPON
+    jumlah_kupon: jumlahKupon,
     status: 'Baru'
   }])
-  if(errInsert){ alert('Gagal simpan pesanan: '+errInsert.message); return; }
+  if(errInsert){ showNotifAyu('Gagal simpan pesanan: '+errInsert.message, 'gagal'); return; }
 
   await kurangiStok();
 
@@ -448,9 +494,9 @@ async function kirimPesanan(){
   pesanAdmin += `%0A%0ADari: ${nama} - ${hp}%0AAlamat: ${alamat}`;
   window.open(`https://wa.me/${ADMIN_WA}?text=${pesanAdmin}`, '_blank');
 
-  generatePDFStruk(id_pesanan, nama, alamat, hp, total, jumlahKupon);
+  generatePDFStruk(id_pesanan, nama, alamat, hp, total, jumlahKupon, keranjang);
   keranjang = []; updateKeranjangBar(); tutupKeranjang(); loadProduk();
-  alert('Pesanan terkirim! Stok sudah terupdate. Cek di menu "Pesanan Saya"')
+  showNotifAyu('Pesanan terkirim! Stok sudah terupdate. Cek di menu "Pesanan Saya"', 'sukses')
 }
 
 async function kurangiStok(){
@@ -464,54 +510,44 @@ async function kurangiStok(){
 }
 
 async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKeranjang){
-  // Buat canvas go gambar struk
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = 400;
-  
-  // Hitung tinggi otomatis
   let tinggi = 650 + (dataKeranjang.length * 50);
   if(jumlahKupon > 0) tinggi += 60;
   canvas.height = tinggi;
 
-  // WARNA HEADER GRADASI
   const gradient = ctx.createLinearGradient(0, 0, 0, 100);
   gradient.addColorStop(0, '#8B5CF6');
   gradient.addColorStop(1, '#6366F1');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, 100);
 
-  // LOGO - pake logo.jpg mu
   const logo = new Image();
   logo.src = 'logo.jpg';
   await new Promise(resolve => { logo.onload = resolve });
   ctx.drawImage(logo, 150, 15, 100, 50);
 
-  // TEKS HEADER
   ctx.fillStyle = 'white';
   ctx.font = 'bold 24px Arial';
   ctx.textAlign = 'center';
   ctx.fillText('SARAHMART', canvas.width/2, 75);
-  
   ctx.font = '14px Arial';
   ctx.fillText('MBABREK RT 4C CAMPLONK', canvas.width/2, 95);
 
-  // ISI STRUK
   ctx.fillStyle = 'black';
   ctx.textAlign = 'left';
   let y = 130;
-  
   ctx.font = '14px monospace';
-  ctx.fillText(`No  : ${id}`, 20, y); y += 25;
+  ctx.fillText(`No : ${id}`, 20, y); y += 25;
   ctx.fillText(`Tgl : ${new Date().toLocaleString('id-ID')}`, 20, y); y += 25;
   ctx.fillText(`Kasir: SARAH`, 20, y); y += 25;
-  
+
   ctx.strokeStyle = '#ccc';
   ctx.setLineDash([5,5]);
   ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 20;
   ctx.setLineDash([]);
 
-  // DAFTAR PRODUK
   dataKeranjang.forEach(k=>{
     ctx.font = 'bold 14px Arial';
     ctx.fillText(k.nama, 20, y); y += 20;
@@ -526,17 +562,15 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
   ctx.strokeStyle = 'black';
   ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 25;
 
-  // TOTAL
   ctx.font = 'bold 16px Arial';
   ctx.fillText('TOTAL', 20, y);
   ctx.textAlign = 'right';
   ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25;
   ctx.textAlign = 'left';
-  
   ctx.font = '14px Arial';
   ctx.fillText('BAYAR', 20, y);
   ctx.textAlign = 'right';
-  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25; // default bayar = total
+  ctx.fillText(`Rp ${total.toLocaleString('id-ID')}`, 380, y); y += 25;
   ctx.textAlign = 'left';
   ctx.fillText('KEMBALI', 20, y);
   ctx.textAlign = 'right';
@@ -546,7 +580,6 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
   ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(380, y); ctx.stroke(); y += 30;
   ctx.setLineDash([]);
 
-  // KUPON
   if(jumlahKupon > 0){
     ctx.fillStyle = '#FFEB3B';
     ctx.fillRect(20, y-20, 360, 40);
@@ -557,19 +590,17 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
     ctx.textAlign = 'left';
   }
 
-  // QR CODE - pake API gratis
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=${id}`;
   const qrImg = new Image();
   qrImg.src = qrUrl;
   await new Promise(resolve => { qrImg.onload = resolve });
   ctx.drawImage(qrImg, 150, y); y += 110;
-  
+
   ctx.font = '12px Arial';
   ctx.fillStyle = '#666';
   ctx.textAlign = 'center';
   ctx.fillText('Scan untuk detail transaksi', canvas.width/2, y); y += 40;
 
-  // FOOTER
   ctx.fillStyle = '#f3f3f3';
   ctx.fillRect(0, y-20, canvas.width, 80);
   ctx.fillStyle = 'black';
@@ -580,7 +611,6 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
   ctx.font = '14px Arial';
   ctx.fillText('Sudah berbelanja di SARAHMART', canvas.width/2, y+45);
 
-  // DOWNLOAD JADI JPG
   const link = document.createElement('a');
   link.download = `Struk-${id}.jpg`;
   link.href = canvas.toDataURL('image/jpeg', 0.9);
@@ -589,6 +619,29 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
 
 function showNotif(pesan, tipe){
   console.log(pesan);
+}
+
+function showNotifAyu(pesan, tipe = 'sukses'){
+  const popup = document.getElementById('popupNotif');
+  const icon = document.getElementById('icon-notif');
+  const judul = document.getElementById('judul-notif');
+  const pesanEl = document.getElementById('pesan-notif');
+  pesanEl.innerText = pesan;
+  if(tipe === 'gagal'){
+    icon.innerText = '❌';
+    judul.innerText = 'Waduh';
+    judul.style.color = '#d32f2f';
+  } else {
+    icon.innerText = '✅';
+    judul.innerText = 'Sukses';
+    judul.style.color = '#00c853';
+  }
+  popup.style.display = 'flex';
+  setTimeout(()=>{tutupNotif()}, 2500); // auto nutup 2.5 detik
+}
+
+function tutupNotif(){
+  document.getElementById('popupNotif').style.display = 'none';
 }
 
 loadProduk();
