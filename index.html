@@ -18,7 +18,7 @@ header{background:linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);color:white;
 
 .header-atas{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;position:relative;height:40px}
 .logo-wrap{position:absolute;left:50%;transform:translateX(-50%)}
-header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background:white;object-fit:contain;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background:white;object-fit:contain;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
     /* KERANJANG POJOK KAN ATAS */
 .icon-keranjang-atas{position:relative;background:white;color:#1976d2;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.3);cursor:pointer;font-size:20px;margin-top:-10px}
 .lencana{position:absolute;top:-3px;right:-3px;background:#ff1744;color:white;font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
@@ -264,7 +264,7 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
     else if(jmlProduk == 3){gambarKolase += `<div style="grid-column:1/3;grid-row:1/2;overflow:hidden;border-radius:5px;"><img src="${produkUtama.gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;gambarKolase += `<div style="grid-column:1/2;grid-row:2/3;overflow:hidden;border-radius:5px;"><img src="${produkLain[0].gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;gambarKolase += `<div style="grid-column:2/3;grid-row:2/3;overflow:hidden;border-radius:5px;"><img src="${produkLain[1].gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;}
     else {gambarKolase += `<div style="grid-column:1/3;grid-row:1/3;overflow:hidden;border-radius:5px;"><img src="${produkUtama.gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`;let idx = 0;for(let r=1;r<3;r++){for(let c=3;c<5;c++){if(idx < produkLain.length){gambarKolase += `<div style="grid-column:${c}/${c+1};grid-row:${r}/${r+1};overflow:hidden;border-radius:5px;"><img src="${produkLain[idx].gambar_url}" style="width:100%;height:100%;object-fit:cover;"></div>`; idx++;}}}if(jmlProduk > 5){gambarKolase += `<div style="grid-column:4/5;grid-row:3/4;background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;border-radius:5px;">+${jmlProduk-5}</div>`;}}
     gambarKolase += `</div>`;
-    bannerOtomatis.push({judul: `🔥 DISKON AMBYAR ${persen}% - ${jmlProduk} PRODUK 🔥`, subjudul: teksTgl, gambar_html: gambarKolase, link: `diskon${persen}`})
+    bannerOtomatis.push({judul: `🔥 DISKON MAWOR ${persen}% - ${jmlProduk} PRODUK 🔥`, subjudul: teksTgl, gambar_html: gambarKolase, link: `diskon${persen}`})
   }
 
   if(bannerOtomatis.length == 1){
