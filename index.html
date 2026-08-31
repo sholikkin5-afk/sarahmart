@@ -18,7 +18,7 @@ header{background:linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);color:white;
 
 .header-atas{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;position:relative;height:40px}
 .logo-wrap{position:absolute;left:50%;transform:translateX(-50%)}
-header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background:white;object-fit:contain;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background:white;object-fit:contain;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
     /* KERANJANG POJOK KAN ATAS */
 .icon-keranjang-atas{position:relative;background:white;color:#1976d2;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.3);cursor:pointer;font-size:20px;margin-top:-10px}
 .lencana{position:absolute;top:-3px;right:-3px;background:#ff1744;color:white;font-size:10px;font-weight:bold;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
@@ -30,8 +30,8 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
 .search input:focus{outline:none;border-color:#00c853}
 
 .kategori-wrap{flex:2}
-    #select-kategori{width:100%;padding:10px;border-radius:12px;border:2px solid rgba(255,255,255,0.5);background:rgba(255,255,255,0.95);color:#1976d2;font-weight:bold;font-size:14px;cursor:pointer}
-    #select-kategori:focus{outline:none;border-color:#00c853}
+    #btn-kategori{width:100%;padding:10px;border-radius:12px;border:2px solid rgba(255,255,255,0.5);background:rgba(255,255,255,0.95);color:#1976d2;font-weight:bold;font-size:14px;cursor:pointer;text-align:left}
+    #btn-kategori:focus{outline:none;border-color:#00c853}
 
     /* TOMBOL MENU */
 .menu-atas{display:flex;justify-content:center;gap:10px;padding:10px 0 0 0;max-width:1200px;margin-top:-5px; margin-bottom:-18px}
@@ -105,42 +105,23 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
 .status-badge{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:bold;color:white}
 .status-baru{background:#ff9800}.status-proses{background:#1976d2}.status-selesai{background:#00c853}
 
+    /* LIST KATEGORI BARU */
+.item-kategori{padding:15px;border-bottom:1px solid #e3f2fd;cursor:pointer;font-weight:bold;color:#1565c0;display:flex;align-items:center;gap:10px}
+.item-kategori:active{background:#e3f2fd}
+.item-kategori.aktif{color:#00c853;background:#e8f5e9}
+
     /* ===== VERSI DESKTOP 4 KOLOM ===== */
     @media(min-width: 768px){
       body{padding-top:220px}
- .header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
- .produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
- .card img{height:180px}
- .card h3{height:40px;font-size:15px}
- .banner-slider{height:240px; border-radius:20px; margin:15px auto}
- .popup-content{max-width:700px}
+.header-atas,.header-bawah,.produk,.banner-slider,.pagination,.menu-atas{max-width:1200px;margin:0 auto}
+.produk{grid-template-columns:repeat(4, 1fr); gap:18px; padding:20px}
+.card img{height:180px}
+.card h3{height:40px;font-size:15px}
+.banner-slider{height:240px; border-radius:20px; margin:15px auto}
+.popup-content{max-width:700px}
     }
     /* ANTI BADGE NYASAR */
 .badge-diskon{pointer-events:none}
-#btn-kategori{
-  width:100%;
-  padding:10px;
-  border-radius:12px;
-  border:2px solid rgba(255,255,255,0.5);
-  background:rgba(255,255,255,0.95);
-  color:#1976d2;
-  font-weight:bold;
-  font-size:14px;
-  cursor:pointer;
-  text-align:left
-}
-.item-kategori{
-  padding:15px;
-  border-bottom:1px solid #e3f2fd;
-  cursor:pointer;
-  font-weight:bold;
-  color:#1565c0;
-  display:flex;
-  align-items:center;
-  gap:10px
-}
-.item-kategori:active{background:#e3f2fd}
-.item-kategori.aktif{color:#00c853;background:#e8f5e9}
   </style>
 </head>
 <body>
@@ -156,23 +137,8 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
 
   <div class="header-bawah">
     <div class="search"><input type="text" id="cari" placeholder="🔍 Cari produk di SARAHmart..." onkeyup="cariProduk()"></div>
-<div class="kategori-wrap">
-  <button id="btn-kategori" onclick="bukaPopupKategori()">
-    📦 Semua Kategori <span style="float:right">▼</span>
-  </button>
-</div>
-
-<!-- POPUP KATEGORI BARU -->
-<div class="popup" id="popupKategori" style="z-index:998">
-  <div class="popup-content" style="max-width:500px;border-radius:20px 20px 0 0">
-    <div class="popup-header">
-      <h3>🏷️ Pilih Kategori</h3>
-      <button class="close-btn" onclick="tutupPopupKategori()">x</button>
-    </div>
-    <div id="list-kategori"></div>
-  </div>
-</div>
-      </select>
+    <div class="kategori-wrap">
+      <button id="btn-kategori" onclick="bukaPopupKategori()">📦 Semua Kategori <span style="float:right">▼</span></button>
     </div>
   </div>
 
@@ -224,13 +190,24 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
   </div>
 </div>
 
-<!-- POPUP NOTIF CANTIK BARU -->
+<!-- POPUP NOTIF CANTIK -->
 <div class="popup" id="popupNotif" style="z-index:999;align-items:center">
   <div class="popup-content" style="max-width:400px;text-align:center;padding:25px;border-radius:20px">
     <div id="icon-notif" style="font-size:50px;margin-bottom:10px">✅</div>
     <h3 id="judul-notif" style="color:#1976d2;margin-bottom:8px">Sukses</h3>
     <p id="pesan-notif" style="color:#666;margin-bottom:20px">Isi data pengiriman dulu!</p>
     <button onclick="tutupNotif()" style="background:linear-gradient(135deg, #1976d2 0%, #00c853 100%);color:white;border:none;padding:12px 30px;border-radius:10px;font-weight:bold;cursor:pointer">Oke</button>
+  </div>
+</div>
+
+<!-- POPUP KATEGORI BARU -->
+<div class="popup" id="popupKategori" style="z-index:998">
+  <div class="popup-content" style="max-width:500px;border-radius:20px 20px 0 0">
+    <div class="popup-header">
+      <h3>🏷️ Pilih Kategori</h3>
+      <button class="close-btn" onclick="tutupPopupKategori()">x</button>
+    </div>
+    <div id="list-kategori"></div>
   </div>
 </div>
 
@@ -266,14 +243,12 @@ if(settingPromo.aktif && (!settingPromo.tgl_akhir || today <= settingPromo.tgl_a
   let tglText = settingPromo.tgl_akhir? `Berlaku s/d ${new Date(settingPromo.tgl_akhir).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}` : `Berlaku kelipatan!`;
   let gambarKolase = '';
   const imgs = settingPromo.gambar_urls || [];
-  if(imgs.length === 0){
-    gambarKolase = `<div style="background:linear-gradient(135deg, #ff9800 0%, #ff1744 100%);display:flex;align-items:center;justify-content:center;height:100%;color:white;text-align:center"><div><div style="font-size:24px">🎟️🎁🎟️</div><div>Hadiah Menarik Menanti!</div></div></div>`;
-  }
+  if(imgs.length === 0){ gambarKolase = `<div style="background:linear-gradient(135deg, #ff9800 0%, #ff1744 100%);display:flex;align-items:center;justify-content:center;height:100%;color:white;text-align:center"><div><div style="font-size:24px">🎟️🎁🎟️</div><div>Hadiah Menarik Menanti!</div></div></div>`; }
   else if(imgs.length === 1){ gambarKolase = `<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;">`; }
   else if(imgs.length === 2){ gambarKolase = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"></div>`; }
   else if(imgs.length === 3){ gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr;gap:3px;height:100%"><img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover;"><div style="display:grid;grid-template-rows:1fr 1fr;gap:3px"><img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover;"><img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover;"></div></div>`; }
   else { gambarKolase = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;height:100%">`; gambarKolase += `<img src="${imgs[0]}" style="grid-row:1/3;width:100%;height:100%;object-fit:cover;">`; for(let i=1; i<5 && i<imgs.length; i++){ gambarKolase += `<img src="${imgs[i]}" style="width:100%;height:100%;object-fit:cover;">`; } if(imgs.length > 5){ gambarKolase += `<div style="background:rgba(0,0,0,0.6);color:white;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:16px;">+${imgs.length-5}</div>`; } gambarKolase += `</div>`; }
-  bannerOtomatis.push({ judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`, subjudul: `${tglText} Kupon diundi tiap akhir bulan`, gambar_html: gambarKolase, link: `#produk` });
+  bannerOtomatis.push({ judul: `🎁 BELANJA Rp ${settingPromo.minimal.toLocaleString('id-ID')} DAPAT KUPON UNDIAN 🎁`, subjudul: `${tglText} Undian diundi tiap akhir bulan`, gambar_html: gambarKolase, link: `#produk` });
 }
 
   const produkDiskon = produk.filter(p=>p.diskon>0 && p.stok>0 && (!p.tgl_kadaluarsa || p.tgl_kadaluarsa >= today));
@@ -324,8 +299,8 @@ function nextBanner(){const total = document.querySelectorAll('.banner-item').le
 function prevBanner(){const total = document.querySelectorAll('.banner-item').length; bannerIndex = (bannerIndex-1+total)%total; updateBannerPosition();}
 function initBannerSwipe(){const track = document.getElementById('banner-track'); const slider = document.querySelector('.banner-slider');slider.addEventListener('touchstart', e => {startX = e.touches[0].clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('touchmove', e => {if(!isDragging) return; const diff = e.touches[0].clientX - startX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('touchend', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.changedTouches[0].clientX - startX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});let startMouseX = 0;slider.addEventListener('mousedown', e => {startMouseX = e.clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('mousemove', e => {if(!isDragging) return; const diff = e.clientX - startMouseX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('mouseup', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.clientX - startMouseX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});slider.addEventListener('mouseleave', ()=>{if(isDragging){isDragging=false;track.classList.remove('dragging');updateBannerPosition();bannerInterval = setInterval(nextBanner,4000);}});}
 function filterBanner(link){if(dragThreshold) return; if(!link) return; if(link.startsWith('diskon')){const persen = link.replace('diskon',''); filterProdukByDiskon(persen); document.getElementById('daftar-produk').scrollIntoView({behavior: 'smooth'});} else if(link.startsWith('#')){document.querySelector(link)?.scrollIntoView({behavior: 'smooth'});}}
-function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('select-kategori').value = 'Semua'; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotifAyu(`Menampilkan produk diskon ${persen}%`,'sukses');}
-function resetFilter(){produkFilter = allProduk; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'none';}
+function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('btn-kategori').innerHTML = `📦 Semua Kategori <span style="float:right">▼</span>`; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotifAyu(`Menampilkan produk diskon ${persen}%`,'sukses');}
+function resetFilter(){produkFilter = allProduk; kategoriAktif = 'Semua'; document.getElementById('btn-kategori').innerHTML = `📦 Semua Kategori <span style="float:right">▼</span>`; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'none';}
 function gantiMenu(menu, el){document.querySelectorAll('.btn-menu').forEach(b=>b.classList.remove('aktif')); el.classList.add('aktif'); document.getElementById('halaman-produk').style.display = menu=='produk'?'block':'none'; document.getElementById('halaman-pesanan').style.display = menu=='pesanan'?'block':'none';}
 async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){showNotifAyu('Isi No HP dulu','gagal');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false}); const container = document.getElementById('list-pesanan'); if(!data || data.length==0){container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>';return;} container.innerHTML=''; data.forEach(p=>{let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai'; let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : ''; container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;})}
 
@@ -335,24 +310,44 @@ async function loadProduk(){
   const { data, error } = await db.from('prodak').select('*').order('deskripsi', { ascending: true }).order('nama', { ascending: true });
   if(error){ container.innerHTML = `<p style='text-align:center;padding:20px;color:red'>Error Supabase: ${error.message}</p>`; return; }
   if(!data || data.length === 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Belum ada produk. Silahkan tambah di Admin</p>"; return; }
+
   data.sort(() => Math.random() - 0.5);
-  produk = data; allProduk = data; produkFilter = data;
-  buatTombolKategori(); tampilProduk(); loadBanner();
+
+  produk = data;
+  allProduk = data;
+  produkFilter = data;
+  buatListKategori(); // GANTI JADI INI BEN MUNCUL NENG POPUP
+  tampilProduk();
+  loadBanner();
 }
 
-function buatTombolKategori(){
-  const select = document.getElementById('select-kategori');
+// FUNGSI KATEGORI BARU - POPUP
+function buatListKategori(){
+  const container = document.getElementById('list-kategori');
   const kategoriUnik = [...new Set(allProduk.map(p => p.deskripsi).filter(k => k))];
-  let html = `<option value="Semua">📦 Semua Kategori</option>`;
-  kategoriUnik.forEach(kat => {html += `<option value="${kat}">🏷️ ${kat}</option>`;});
-  select.innerHTML = html;
+
+  let html = `<div class="item-kategori ${kategoriAktif==='Semua'?'aktif':''}" onclick="pilihKategori('Semua')">📦 Semua Kategori</div>`;
+  kategoriUnik.forEach(kat => {
+    html += `<div class="item-kategori ${kategoriAktif===kat?'aktif':''}" onclick="pilihKategori('${kat}')">🏷️ ${kat}</div>`;
+  });
+  container.innerHTML = html;
 }
 
-function filterKategoriDropdown(kategori){
-  kategoriAktif = kategori;
+function bukaPopupKategori(){
+  document.getElementById('popupKategori').style.display = 'flex';
+  buatListKategori();
+}
+function tutupPopupKategori(){
+  document.getElementById('popupKategori').style.display = 'none';
+}
+
+function pilihKategori(kat){
+  kategoriAktif = kat;
+  document.getElementById('btn-kategori').innerHTML = `🏷️ ${kat} <span style="float:right">▼</span>`;
   halamanAktif = 1;
   cariProduk();
-  document.getElementById('btn-reset-filter').style.display = kategori === 'Semua'? 'none' : 'block';
+  document.getElementById('btn-reset-filter').style.display = kat === 'Semua'? 'none' : 'block';
+  tutupPopupKategori();
 }
 
 function tampilProduk(){
@@ -665,8 +660,8 @@ function showNotifAyu(pesan, tipe = 'sukses'){
   const pesanEl = document.getElementById('pesan-notif');
   pesanEl.innerText = pesan;
   if(tipe === 'gagal'){
-    icon.innerText = '🙏';
-    judul.innerText = 'Mohon maaf!';
+    icon.innerText = '❌';
+    judul.innerText = 'Waduh';
     judul.style.color = '#d32f2f';
   } else {
     icon.innerText = '✅';
@@ -674,42 +669,12 @@ function showNotifAyu(pesan, tipe = 'sukses'){
     judul.style.color = '#00c853';
   }
   popup.style.display = 'flex';
-  setTimeout(()=>{tutupNotif()}, 2500); // auto nutup 2.5 detik
+  setTimeout(()=>{tutupNotif()}, 2500);
 }
 
 function tutupNotif(){
   document.getElementById('popupNotif').style.display = 'none';
 }
-
-function bukaPopupKategori(){
-  document.getElementById('popupKategori').style.display = 'flex';
-  buatListKategori();
-}
-function tutupPopupKategori(){
-  document.getElementById('popupKategori').style.display = 'none';
-}
-
-function buatListKategori(){
-  const container = document.getElementById('list-kategori');
-  const kategoriUnik = [...new Set(allProduk.map(p => p.deskripsi).filter(k => k))];
-  
-  let html = `<div class="item-kategori ${kategoriAktif==='Semua'?'aktif':''}" onclick="pilihKategori('Semua')">📦 Semua Kategori</div>`;
-  kategoriUnik.forEach(kat => {
-    html += `<div class="item-kategori ${kategoriAktif===kat?'aktif':''}" onclick="pilihKategori('${kat}')">🏷️ ${kat}</div>`;
-  });
-  container.innerHTML = html;
-}
-
-function pilihKategori(kat){
-  kategoriAktif = kat;
-  document.getElementById('btn-kategori').innerHTML = `🏷️ ${kat} <span style="float:right">▼</span>`;
-  halamanAktif = 1;
-  cariProduk();
-  document.getElementById('btn-reset-filter').style.display = kat === 'Semua'? 'none' : 'block';
-  tutupPopupKategori();
-}
-
-// HAPUS fungsi lama: buatTombolKategori() dan filterKategoriDropdown()
 
 loadProduk();
 updateKeranjangBar();
