@@ -299,7 +299,7 @@ function nextBanner(){const total = document.querySelectorAll('.banner-item').le
 function prevBanner(){const total = document.querySelectorAll('.banner-item').length; bannerIndex = (bannerIndex-1+total)%total; updateBannerPosition();}
 function initBannerSwipe(){const track = document.getElementById('banner-track'); const slider = document.querySelector('.banner-slider');slider.addEventListener('touchstart', e => {startX = e.touches[0].clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('touchmove', e => {if(!isDragging) return; const diff = e.touches[0].clientX - startX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('touchend', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.changedTouches[0].clientX - startX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});let startMouseX = 0;slider.addEventListener('mousedown', e => {startMouseX = e.clientX; isDragging = true; track.classList.add('dragging'); clearInterval(bannerInterval);});slider.addEventListener('mousemove', e => {if(!isDragging) return; const diff = e.clientX - startMouseX; track.style.transform = `translateX(${-bannerIndex*100 + (diff/slider.offsetWidth)*100}%)`;});slider.addEventListener('mouseup', e => {if(!isDragging) return; isDragging = false; track.classList.remove('dragging'); const diff = e.clientX - startMouseX; dragThreshold = Math.abs(diff) > 10; setTimeout(()=>{dragThreshold=false}, 100); if(diff > 50) prevBanner(); else if(diff < -50) nextBanner(); updateBannerPosition(); bannerInterval = setInterval(nextBanner,4000);});slider.addEventListener('mouseleave', ()=>{if(isDragging){isDragging=false;track.classList.remove('dragging');updateBannerPosition();bannerInterval = setInterval(nextBanner,4000);}});}
 function filterBanner(link){if(dragThreshold) return; if(!link) return; if(link.startsWith('diskon')){const persen = link.replace('diskon',''); filterProdukByDiskon(persen); document.getElementById('daftar-produk').scrollIntoView({behavior: 'smooth'});} else if(link.startsWith('#')){document.querySelector(link)?.scrollIntoView({behavior: 'smooth'});}}
-function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('btn-kategori').innerHTML = `📦 Semua Kategori <span style="float:right">▼</span>`; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; showNotifAyu(`Menampilkan produk diskon ${persen}%`,'sukses');}
+function filterProdukByDiskon(persen){produkFilter = produk.filter(p => p.diskon == persen); kategoriAktif = 'Semua'; document.getElementById('btn-kategori').innerHTML = `📦 Semua Kategori <span style="float:right">▼</span>`; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'block'; }
 function resetFilter(){produkFilter = allProduk; kategoriAktif = 'Semua'; document.getElementById('btn-kategori').innerHTML = `📦 Semua Kategori <span style="float:right">▼</span>`; halamanAktif = 1; tampilProduk(); document.getElementById('btn-reset-filter').style.display = 'none';}
 function gantiMenu(menu, el){document.querySelectorAll('.btn-menu').forEach(b=>b.classList.remove('aktif')); el.classList.add('aktif'); document.getElementById('halaman-produk').style.display = menu=='produk'?'block':'none'; document.getElementById('halaman-pesanan').style.display = menu=='pesanan'?'block':'none';}
 async function loadPesanan(){const hp = document.getElementById('cari-pesanan').value; if(!hp){showNotifAyu('Isi No HP dulu','gagal');return;} const {data} = await db.from('pesenan').select('*').eq('no_hp',hp).order('created_at',{ascending:false}); const container = document.getElementById('list-pesanan'); if(!data || data.length==0){container.innerHTML='<p style="text-align:center">Belum ada pesanan</p>';return;} container.innerHTML=''; data.forEach(p=>{let statusClass = p.status=='Baru'?'status-baru':p.status=='Proses'?'status-proses':'status-selesai'; let kuponText = p.jumlah_kupon>0? `<p style="color:#ff9800;font-weight:bold">🎟️ Kupon: ${p.jumlah_kupon}</p>` : ''; container.innerHTML += `<div class="pesanan-item"><div style="display:flex;justify-content:space-between"><b>ID: ${p.id_pesanan}</b><span class="status-badge ${statusClass}">${p.status}</span></div><small>${new Date(p.created_at).toLocaleString('id-ID')}</small><p style="margin:8px 0">Total: <b style="color:#00c853">Rp ${Number(p.total_harga).toLocaleString('id-ID')}</b></p>${kuponText}</div>`;})}
@@ -549,24 +549,21 @@ async function generatePDFStruk(id, nama, alamat, hp, total, jumlahKupon, dataKe
   if(jumlahKupon > 0) tinggi += 60;
   canvas.height = tinggi;
 
+  // HEADER TANPA LOGO
   const gradient = ctx.createLinearGradient(0, 0, 0, 100);
   gradient.addColorStop(0, '#8B5CF6');
   gradient.addColorStop(1, '#6366F1');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, 100);
 
-  const logo = new Image();
-  logo.src = 'logo.jpg';
-  await new Promise(resolve => { logo.onload = resolve });
-  ctx.drawImage(logo, 150, 15, 100, 50);
-
   ctx.fillStyle = 'white';
-  ctx.font = 'bold 24px Arial';
+  ctx.font = 'bold 28px Arial';
   ctx.textAlign = 'center';
-  ctx.fillText('SARAHMART', canvas.width/2, 75);
+  ctx.fillText('SARAHMART', canvas.width/2, 60); // Tak gede ne tulisane
   ctx.font = '14px Arial';
-  ctx.fillText('MBABREK RT 4C CAMPLONK', canvas.width/2, 95);
+  ctx.fillText('MBABREK RT 4C CAMPLONK', canvas.width/2, 85);
 
+  // SISANE TETEP SAMA KYOK DUWUR
   ctx.fillStyle = 'black';
   ctx.textAlign = 'left';
   let y = 130;
