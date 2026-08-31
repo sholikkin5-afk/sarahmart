@@ -117,6 +117,30 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
     }
     /* ANTI BADGE NYASAR */
 .badge-diskon{pointer-events:none}
+#btn-kategori{
+  width:100%;
+  padding:10px;
+  border-radius:12px;
+  border:2px solid rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.95);
+  color:#1976d2;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  text-align:left
+}
+.item-kategori{
+  padding:15px;
+  border-bottom:1px solid #e3f2fd;
+  cursor:pointer;
+  font-weight:bold;
+  color:#1565c0;
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+.item-kategori:active{background:#e3f2fd}
+.item-kategori.aktif{color:#00c853;background:#e8f5e9}
   </style>
 </head>
 <body>
@@ -132,9 +156,22 @@ header img{width:150px;height:75px;margin-top:26px;border-radius:10px;background
 
   <div class="header-bawah">
     <div class="search"><input type="text" id="cari" placeholder="🔍 Cari produk di SARAHmart..." onkeyup="cariProduk()"></div>
-    <div class="kategori-wrap">
-      <select id="select-kategori" onchange="filterKategoriDropdown(this.value)">
-        <option value="Semua">📦 Semua</option>
+<div class="kategori-wrap">
+  <button id="btn-kategori" onclick="bukaPopupKategori()">
+    📦 Semua Kategori <span style="float:right">▼</span>
+  </button>
+</div>
+
+<!-- POPUP KATEGORI BARU -->
+<div class="popup" id="popupKategori" style="z-index:998">
+  <div class="popup-content" style="max-width:500px;border-radius:20px 20px 0 0">
+    <div class="popup-header">
+      <h3>🏷️ Pilih Kategori</h3>
+      <button class="close-btn" onclick="tutupPopupKategori()">x</button>
+    </div>
+    <div id="list-kategori"></div>
+  </div>
+</div>
       </select>
     </div>
   </div>
@@ -643,6 +680,36 @@ function showNotifAyu(pesan, tipe = 'sukses'){
 function tutupNotif(){
   document.getElementById('popupNotif').style.display = 'none';
 }
+
+function bukaPopupKategori(){
+  document.getElementById('popupKategori').style.display = 'flex';
+  buatListKategori();
+}
+function tutupPopupKategori(){
+  document.getElementById('popupKategori').style.display = 'none';
+}
+
+function buatListKategori(){
+  const container = document.getElementById('list-kategori');
+  const kategoriUnik = [...new Set(allProduk.map(p => p.deskripsi).filter(k => k))];
+  
+  let html = `<div class="item-kategori ${kategoriAktif==='Semua'?'aktif':''}" onclick="pilihKategori('Semua')">📦 Semua Kategori</div>`;
+  kategoriUnik.forEach(kat => {
+    html += `<div class="item-kategori ${kategoriAktif===kat?'aktif':''}" onclick="pilihKategori('${kat}')">🏷️ ${kat}</div>`;
+  });
+  container.innerHTML = html;
+}
+
+function pilihKategori(kat){
+  kategoriAktif = kat;
+  document.getElementById('btn-kategori').innerHTML = `🏷️ ${kat} <span style="float:right">▼</span>`;
+  halamanAktif = 1;
+  cariProduk();
+  document.getElementById('btn-reset-filter').style.display = kat === 'Semua'? 'none' : 'block';
+  tutupPopupKategori();
+}
+
+// HAPUS fungsi lama: buatTombolKategori() dan filterKategoriDropdown()
 
 loadProduk();
 updateKeranjangBar();
