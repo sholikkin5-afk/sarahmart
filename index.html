@@ -207,7 +207,7 @@ header img{width:150px;height:75px;margin-top:20px;border-radius:10px;background
 async function loadSettingPromo(){
   const {data} = await db.from('setting').select('*').eq('key','promo_undian').single();
   if(data && data.value){
-    settingPromo = data.value; // HAPUS JSON.parse
+    settingPromo = typeof data.value === 'string'? JSON.parse(data.value) : data.value; // IKI DI BENAKNO
   } else {
     settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
   }
