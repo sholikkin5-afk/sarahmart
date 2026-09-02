@@ -62,14 +62,6 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .badge-diskon{position:absolute;top:10px;left:10px;background:#ff1744;color:white;font-size:10px;font-weight:bold;padding:3px 7px;border-radius:6px;z-index:2;pointer-events:none}
 .badge-diskon{animation:kedip 1s infinite}
 @keyframes kedip{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.countdown-diskon{
-  position:absolute;top:35px;right:10px;
-  background:#d32f2f;color:white;
-  font-size:9px;font-weight:bold;
-  padding:3px 6px;border-radius:5px;z-index:2;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 1px;
-}
 .badge-baru{
   position:absolute;top:10px;right:10px;
   background:linear-gradient(135deg,#00c853 0%,#1976d2 100%);
@@ -261,6 +253,7 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
   let halamanAktif = 1; const perHalaman = 10; let produkFilter = [];
   let bannerIndex = 0; let bannerInterval; let startX = 0; let isDragging = false; let dragThreshold = false;
   let settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
+  
 async function loadSettingPromo(){
   const {data} = await db.from('setting').select('*').eq('key','promo_undian').single();
   if(data && data.value){
@@ -269,35 +262,7 @@ async function loadSettingPromo(){
     settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
   }
 }
-// FUNGSI UPDATE COUNTDOWN TIAP DETIK
-function updateCountdown(){
-  document.querySelectorAll('.countdown-diskon').forEach(el => {
-    const targetTime = parseInt(el.getAttribute('data-time'));
-    const now = new Date().getTime();
-    const selisih = targetTime - now;
 
-    if(selisih <= 0){
-      el.innerHTML = "HABIS!";
-      el.style.background = "#9e9e9e";
-      return;
-    }
-
-    const hari = Math.floor(selisih / (1000*60*60*24));
-    const jam = Math.floor((selisih % (1000*60*60*24)) / (1000*60*60));
-    const menit = Math.floor((selisih % (1000*60*60)) / (1000*60));
-    const detik = Math.floor((selisih % (1000*60)) / 1000);
-
-    if(hari > 0){
-      el.innerHTML = `Habis ${hari}h ${jam}j lagi`;
-    } else {
-      el.innerHTML = `Habis ${jam.toString().padStart(2,'0')}:${menit.toString().padStart(2,'0')}:${detik.toString().padStart(2,'0')}`;
-      el.style.background = "#ff1744"; // Abang nek wes < 1 hari
-    }
-  });
-}
-
-// Jalan no tiap 1 detik
-setInterval(updateCountdown, 1000);
 async function loadBanner(){
   const track = document.getElementById('banner-track');
   const dots = document.getElementById('banner-dots');
@@ -415,9 +380,7 @@ function pilihKategori(kat){
   cariProduk();
   document.getElementById('btn-reset-filter').style.display = kat === 'Semua'? 'none' : 'block';
   tutupPopupKategori();
-}
-
-function tampilProduk(){
+}function tampilProduk(){
   const container = document.getElementById('daftar-produk');
   container.innerHTML = "";
   let start = (halamanAktif - 1) * perHalaman;
@@ -439,20 +402,13 @@ function tampilProduk(){
     let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`;
     let hargaFinal = p.harga;
     let badgeDiskon = '';
-    let badgeTambahan = ''; 
-let countdownHTML = '';
-if(diskonAktif){
-  hargaFinal = Math.round(p.harga - (p.harga * p.diskon / 100));
-  hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> <span class="harga-diskon">Rp ${hargaFinal.toLocaleString('id-ID')}</span>`;
-  badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
+    let badgeTambahan = ''; // IKI KUNCI NE
 
-  // LOGIKA COUNTDOWN REALTIME
-  if(p.tgl_kadaluarsa){
-    // Tambah jam 23:59:59 ben pas 1 hari pisan
-    const kadaluarsa = new Date(p.tgl_kadaluarsa + 'T23:59:59');
-    countdownHTML = `<div class="countdown-diskon" id="countdown-${p.id}" data-time="${kadaluarsa.getTime()}"></div>`;
-  }
-}
+    if(diskonAktif){
+      hargaFinal = Math.round(p.harga - (p.harga * p.diskon / 100));
+      hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> <span class="harga-diskon">Rp ${hargaFinal.toLocaleString('id-ID')}</span>`;
+      badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
+    }
 
     // LOGIKA LABEL OTOMATIS
     // 1. BARU = produk ditambah < 3 hari. Asumsi pake field created_at
@@ -468,7 +424,7 @@ if(diskonAktif){
       badgeTambahan = badgeTambahan.replace('right:10px','right:55px');
     }
 
-    container.innerHTML += `<div class="card">${badgeDiskon}${countdownHTML}${badgeTambahan}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
+    container.innerHTML += `<div class="card">${badgeDiskon}${badgeTambahan}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
   });
   updatePagination();
 }
