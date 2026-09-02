@@ -60,6 +60,30 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .card:hover img{transform:scale(1.08)}
 .card:active img{transform:scale(1.08)}
 .badge-diskon{position:absolute;top:10px;left:10px;background:#ff1744;color:white;font-size:10px;font-weight:bold;padding:3px 7px;border-radius:6px;z-index:2;pointer-events:none}
+.badge-diskon{animation:kedip 1s infinite}
+@keyframes kedip{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.countdown-diskon{
+  position:absolute;top:35px;right:10px;
+  background:#d32f2f;color:white;
+  font-size:9px;font-weight:bold;
+  padding:3px 6px;border-radius:5px;z-index:2;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+}
+.badge-baru{
+  position:absolute;top:10px;right:10px;
+  background:linear-gradient(135deg,#00c853 0%,#1976d2 100%);
+  color:white;font-size:10px;font-weight:bold;
+  padding:3px 7px;border-radius:6px;z-index:2;
+  animation:kedipBaru 1.5s infinite;
+}
+.badge-terlaris{
+  position:absolute;top:10px;right:10px;
+  background:linear-gradient(135deg,#ff9800 0%,#ff1744 100%);
+  color:white;font-size:10px;font-weight:bold;
+  padding:3px 7px;border-radius:6px;z-index:2;
+}
+@keyframes kedipBaru{0%,100%{opacity:1}50%{opacity:0.6}}
 .card h3{font-size:14px;margin:8px 0;height:38px;overflow:hidden;color:#1565c0;font-weight:600}
 .harga-coret{text-decoration:line-through;color:#999;font-size:12px}
 .harga-diskon{color:#00c853;font-weight:bold;font-size:16px}
@@ -69,6 +93,21 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .btn-tambah{background:linear-gradient(135deg, #1976d2 0%, #00c853 100%);color:white;border:none;width:100%;padding:10px;border-radius:10px;margin-top:6px;font-weight:bold;cursor:pointer;transition:0.2s}
 .btn-tambah:active{transform:scale(0.95)}
 .btn-tambah:disabled{background:#ccc;cursor:not-allowed}
+/* ANIMASI TERBANG KE KERANJANG */
+.fly-img{
+  position:fixed;
+  width:50px;
+  height:50px;
+  border-radius:10px;
+  z-index:9999;
+  pointer-events:none;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+@keyframes goyang{
+ 0%,100%{transform:scale(1)} 
+ 50%{transform:scale(1.15)}
+}
+.lencana.goyang{animation:goyang 0.5s}
 .pagination{display:flex;justify-content:center;align-items:center;gap:15px;padding:20px}
 .pagination button{padding:10px 22px;border:none;background:linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);color:white;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;box-shadow:0 3px 8px rgba(25,118,210,0.3)}
 .pagination button:disabled{background:#ccc;box-shadow:none;cursor:not-allowed}
@@ -222,7 +261,6 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
   let halamanAktif = 1; const perHalaman = 10; let produkFilter = [];
   let bannerIndex = 0; let bannerInterval; let startX = 0; let isDragging = false; let dragThreshold = false;
   let settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
-
 async function loadSettingPromo(){
   const {data} = await db.from('setting').select('*').eq('key','promo_undian').single();
   if(data && data.value){
@@ -231,7 +269,35 @@ async function loadSettingPromo(){
     settingPromo = {aktif: false, minimal: 100000, tgl_akhir: null, gambar_urls: []};
   }
 }
+// FUNGSI UPDATE COUNTDOWN TIAP DETIK
+function updateCountdown(){
+  document.querySelectorAll('.countdown-diskon').forEach(el => {
+    const targetTime = parseInt(el.getAttribute('data-time'));
+    const now = new Date().getTime();
+    const selisih = targetTime - now;
 
+    if(selisih <= 0){
+      el.innerHTML = "HABIS!";
+      el.style.background = "#9e9e9e";
+      return;
+    }
+
+    const hari = Math.floor(selisih / (1000*60*60*24));
+    const jam = Math.floor((selisih % (1000*60*60*24)) / (1000*60*60));
+    const menit = Math.floor((selisih % (1000*60*60)) / (1000*60));
+    const detik = Math.floor((selisih % (1000*60)) / 1000);
+
+    if(hari > 0){
+      el.innerHTML = `Habis ${hari}h ${jam}j lagi`;
+    } else {
+      el.innerHTML = `Habis ${jam.toString().padStart(2,'0')}:${menit.toString().padStart(2,'0')}:${detik.toString().padStart(2,'0')}`;
+      el.style.background = "#ff1744"; // Abang nek wes < 1 hari
+    }
+  });
+}
+
+// Jalan no tiap 1 detik
+setInterval(updateCountdown, 1000);
 async function loadBanner(){
   const track = document.getElementById('banner-track');
   const dots = document.getElementById('banner-dots');
@@ -358,21 +424,51 @@ function tampilProduk(){
   let end = start + perHalaman;
   let dataTampil = produkFilter.slice(start, end);
   if(dataTampil.length == 0){ container.innerHTML = "<p style='text-align:center;padding:20px'>Produk tidak ditemukan</p>"; return; }
+
+  const today = new Date().toISOString().split('T')[0];
+  const tgl3HariLalu = new Date(); tgl3HariLalu.setDate(tgl3HariLalu.getDate() - 3);
+  const tglBaru = tgl3HariLalu.toISOString().split('T')[0];
+
   dataTampil.forEach((p)=>{
-    const today = new Date().toISOString().split('T')[0];
     let diskonAktif = p.diskon && p.diskon > 0;
     if(p.tgl_kadaluarsa && p.tgl_kadaluarsa < today) diskonAktif = false;
+
     const btnDisabled = p.stok <= 0? 'disabled' : '';
     const stokText = p.stok <= 0? '<span class="stok-habis">STOK HABIS</span>' : `Stok: ${p.stok}`;
+
     let hargaTampil = `Rp ${p.harga.toLocaleString('id-ID')}`;
-    let badgeDiskon = '';
     let hargaFinal = p.harga;
-    if(diskonAktif){
-      hargaFinal = p.harga - (p.harga * p.diskon / 100);
-      hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> <span class="harga-diskon">Rp ${hargaFinal.toLocaleString('id-ID')}</span>`;
-      badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
+    let badgeDiskon = '';
+    let badgeTambahan = ''; 
+let countdownHTML = '';
+if(diskonAktif){
+  hargaFinal = Math.round(p.harga - (p.harga * p.diskon / 100));
+  hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> <span class="harga-diskon">Rp ${hargaFinal.toLocaleString('id-ID')}</span>`;
+  badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
+
+  // LOGIKA COUNTDOWN REALTIME
+  if(p.tgl_kadaluarsa){
+    // Tambah jam 23:59:59 ben pas 1 hari pisan
+    const kadaluarsa = new Date(p.tgl_kadaluarsa + 'T23:59:59');
+    countdownHTML = `<div class="countdown-diskon" id="countdown-${p.id}" data-time="${kadaluarsa.getTime()}"></div>`;
+  }
+}
+
+    // LOGIKA LABEL OTOMATIS
+    // 1. BARU = produk ditambah < 3 hari. Asumsi pake field created_at
+    if(p.created_at && p.created_at >= tglBaru){
+      badgeTambahan += `<div class="badge-baru">BARU</div>`;
     }
-    container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
+    // 2. TERLARIS = stok e wis entek akeh. Minimal terjual 20. Asumsi pake field terjual
+    else if(p.terjual && p.terjual >= 20){
+      badgeTambahan += `<div class="badge-terlaris">🔥 TERLARIS</div>`;
+    }
+    // Nek ono diskon karo baru, badge baru geser neng kanan
+    if(diskonAktif && badgeTambahan.includes('badge-baru')){
+      badgeTambahan = badgeTambahan.replace('right:10px','right:55px');
+    }
+
+    container.innerHTML += `<div class="card">${badgeDiskon}${countdownHTML}${badgeTambahan}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
   });
   updatePagination();
 }
@@ -403,8 +499,37 @@ function tambahKeranjang(id, hargaFinal, tombol){
     showNotifAyu(`Stok ${itemProduk.nama} tinggal ${itemProduk.stok}`, 'gagal');
     return;
   }
+
+  // 1. ANIMASI GAMBAR TERBANG
+  const img = tombol.closest('.card').querySelector('img');
+  const keranjangIcon = document.querySelector('.icon-keranjang-atas');
+  const flyImg = img.cloneNode(true);
+  flyImg.classList.add('fly-img');
+  const rectImg = img.getBoundingClientRect();
+  const rectKeranjang = keranjangIcon.getBoundingClientRect();
+  flyImg.style.top = rectImg.top + 'px';
+  flyImg.style.left = rectImg.left + 'px';
+  document.body.appendChild(flyImg);
+
+  setTimeout(() => {
+    flyImg.style.top = rectKeranjang.top + 'px';
+    flyImg.style.left = rectKeranjang.left + 'px';
+    flyImg.style.width = '20px';
+    flyImg.style.height = '20px';
+    flyImg.style.opacity = '0.5';
+  }, 50);
+
+  setTimeout(() => { 
+    flyImg.remove(); 
+    // 2. GOYANGIN LENCANA
+    document.getElementById('jumlah-lencana').classList.add('goyang');
+    setTimeout(()=>document.getElementById('jumlah-lencana').classList.remove('goyang'), 500);
+  }, 850);
+
+  // 3. LOGIKA KERANJANG BIASA
   if(itemKeranjang){ itemKeranjang.jumlah++ }
   else{ keranjang.push({...itemProduk, harga: hargaFinal, jumlah:1}) }
+  
   tombol.innerHTML = '✓ Ditambah';
   tombol.style.background = 'linear-gradient(135deg, #00c853 0%, #2e7d32 100%)';
   setTimeout(()=>{ tombol.innerHTML = '+ Tambah'; tombol.style.background = 'linear-gradient(135deg, #1976d2 0%, #00c853 100%)'; }, 500);
