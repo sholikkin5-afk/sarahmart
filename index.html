@@ -370,6 +370,7 @@ function tampilProduk(){
     if(diskonAktif){
       hargaFinal = p.harga - (p.harga * p.diskon / 100);
       hargaTampil = `<div class="harga-coret">Rp ${p.harga.toLocaleString('id-ID')}</div> <span class="harga-diskon">Rp ${hargaFinal.toLocaleString('id-ID')}</span>`;
+      badgeDiskon = `<div class="badge-diskon">-${p.diskon}%</div>`;
     }
     container.innerHTML += `<div class="card">${badgeDiskon}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
   });
