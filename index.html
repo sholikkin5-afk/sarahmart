@@ -40,7 +40,7 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5)}
 .dot.aktif{background:white}
 .produk{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:12px;max-width:1200px;margin:auto}
-.card{background:white;border-radius:15px;padding:12px;box-shadow:0 3px 10px rgba(25,118,210,0.1);transition:0.2s;border:1px solid #e3f2fd;position:relative;overflow:hidden}
+.card{background:white;border-radius:15px;padding:12px;box-shadow:0 3px 10px rgba(25,118,210,0.1);transition:0.2s;border:1px solid #e3f2fd;position:relative;overflow:hidden;display:flex;flex-direction:column}
 .card:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(25,118,210,0.2)}
 .card:active{transform:translateY(-3px)}
 .card img{width:100%;height:150px;object-fit:cover;border-radius:12px;transition:0.3s ease}
@@ -52,6 +52,7 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .badge-terlaris{position:absolute;top:10px;right:10px;background:linear-gradient(135deg,#ff9800 0%,#ff1744 100%);color:white;font-size:10px;font-weight:bold;padding:3px 7px;border-radius:6px;z-index:2}
 @keyframes kedipBaru{0%,100%{opacity:1}50%{opacity:0.6}}
 .card h3{font-size:14px;margin:8px 0;height:38px;overflow:hidden;color:#1565c0;font-weight:600}
+.harga-wrap{margin-top:auto}
 .harga-coret{text-decoration:line-through;color:#999;font-size:12px}
 .harga-diskon{color:#00c853;font-weight:bold;font-size:16px}
 .card p{color:#00c853;font-weight:bold;font-size:16px}
@@ -67,13 +68,45 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .pagination button{padding:10px 22px;border:none;background:linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);color:white;border-radius:10px;font-weight:bold;cursor:pointer;font-size:16px;box-shadow:0 3px 8px rgba(25,118,210,0.3)}
 .pagination button:disabled{background:#ccc;box-shadow:none;cursor:not-allowed}
 .pagination span{font-weight:bold;color:#1976d2}
-.popup{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end;animation:fadeIn 0.3s}
+/* Modifikasi Popup agar khusus keranjang bisa fullscreen */
+.popup {display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:20;align-items:flex-end;animation:fadeIn 0.3s}
 .popup-content{background:white;width:100%;max-width:600px;margin:auto;border-radius:20px 20px 0 0;padding:18px;max-height:85vh;overflow-y:auto;animation:slideUp 0.3s}
+
+/* Khusus Fullscreen Modal Keranjang */
+#popupKeranjang .popup-content {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100vh;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+#popupKeranjang .popup-header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e3f2fd;
+  margin-bottom: 12px;
+}
+
+#popupKeranjang .popup-body-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.popup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0;position:sticky;top:0;background:white;z-index:5;padding:18px;border-bottom:1px solid #e3f2fd}
 .popup-header h3{font-size:18px;color:#1976d2}
 .close-btn{font-size:24px;border:none;background:none;cursor:pointer;color:#666}
+#isi-keranjang{flex:1;overflow-y:auto;padding:18px}
+.footer-keranjang{position:sticky;bottom:0;background:white;padding:18px;border-top:1px solid #e3f2fd;box-shadow:0 -4px 10px rgba(0,0,0,0.05)}
 .item-cart{display:flex;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid #e3f2fd}
 .item-cart img{width:65px;height:65px;object-fit:cover;border-radius:10px;border:2px solid #e3f2fd}
 .item-info{flex:1}
@@ -90,8 +123,7 @@ header img{width:150px;height:75px;margin-top:25px;border-radius:10px;background
 .notif-kupon small{display:block;font-weight:normal;font-size:12px;margin-top:4px}
 .form-pelanggan input,.form-pelanggan textarea{width:100%;padding:12px;margin:6px 0;border:2px solid #e3f2fd;border-radius:10px}
 .form-pelanggan input:focus,.form-pelanggan textarea:focus{outline:none;border-color:#00c853}
-.biaya-layanan{background:#e8f5e9;color:#2e7d32;padding:10px;border-radius:10px;font-size:12px;margin-bottom:10px;text-align:center;font-weight:bold}
-.btn-wa{width:100%;background:linear-gradient(135deg, #25D366 0%, #00c853 100%);color:white;border:none;padding:15px;border-radius:12px;font-size:16px;font-weight:bold;margin-top:12px;cursor:pointer;box-shadow:0 4px 10px rgba(37,211,102,0.3)}
+.btn-wa{width:100%;background:linear-gradient(135deg, #25D366 0%, #00c853 100%);color:white;border:none;padding:15px;border-radius:12px;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 4px 10px rgba(37,211,102,0.3)}
 .pesanan-item{background:white;border-radius:12px;padding:12px;margin:10px;border:2px solid #e3f2fd}
 .status-badge{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:bold;color:white}
 .status-baru{background:#ff9800}.status-proses{background:#1976d2}.status-selesai{background:#00c853}
@@ -105,7 +137,8 @@ body{padding-top:220px}
 .card img{height:180px}
 .card h3{height:40px;font-size:15px}
 .banner-slider{height:240px; border-radius:20px; margin:15px auto}
-.popup-content{max-width:700px}
+.popup-content{max-width:700px;max-height:100vh;border-radius:0}
+.popup{align-items:stretch}
 .badge-diskon{pointer-events:none}
   </style>
 </head>
@@ -142,17 +175,24 @@ body{padding-top:220px}
 
 <div class="popup" id="popupKeranjang">
   <div class="popup-content">
-    <div class="popup-header"><h3>🛒 Keranjang SARAHmart</h3><button class="close-btn" onclick="tutupKeranjang()">x</button></div>
-    <div id="notif-kupon"></div>
-    <div id="isi-keranjang" style="text-align:center; color:#666; padding:20px;">Keranjang masih kosong</div>
-    <div id="rincian-total"></div>
-    <div class="form-pelanggan">
-      <h4 style="color:#1976d2">Data Pengiriman</h4>
-      <input type="text" id="nama_pelanggan" placeholder="Nama Lengkap">
-      <input type="text" id="no_hp" placeholder="No HP 08xxxx">
-      <textarea id="alamat" placeholder="Alamat Lengkap" rows="2"></textarea>
+    <div class="popup-header">
+      <h3>🛒 Keranjang SARAHmart</h3>
+      <button class="close-btn" onclick="tutupKeranjang()">x</button>
     </div>
-    <button class="btn-wa" onclick="kirimPesanan()">💬 Kirim Pesanan via WhatsApp</button>
+    
+    <!-- Bagian yang bisa di-scroll ke bawah -->
+    <div class="popup-body-scroll">
+      <div id="notif-kupon"></div>
+      <div id="isi-keranjang" style="text-align:center; color:#666; padding:20px;">Keranjang masih kosong</div>
+      <div id="rincian-total"></div>
+      <div class="form-pelanggan">
+        <h4 style="color:#1976d2">Data Pengiriman</h4>
+        <input type="text" id="nama_pelanggan" placeholder="Nama Lengkap">
+        <input type="text" id="no_hp" placeholder="No HP 08xxxx">
+        <textarea id="alamat" placeholder="Alamat Lengkap" rows="2"></textarea>
+      </div>
+      <button class="btn-wa" onclick="kirimPesanan()">💬 Kirim Pesanan via WhatsApp</button>
+    </div>
   </div>
 </div>
 
@@ -290,7 +330,7 @@ function tampilProduk(){
     if(diskonAktif && badgeTambahan.includes('badge-baru')){
       badgeTambahan = badgeTambahan.replace('right:10px','right:55px');
     }
-    container.innerHTML += `<div class="card">${badgeDiskon}${badgeTambahan}<img src="${p.gambar_url}"><h3>${p.nama}</h3><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div>`;
+    container.innerHTML += `<div class="card">${badgeDiskon}${badgeTambahan}<img src="${p.gambar_url}"><h3>${p.nama}</h3><div class="harga-wrap"><p>${hargaTampil}</p><div class="stok-info">${stokText}</div><button class="btn-tambah" ${btnDisabled} onclick="tambahKeranjang(${p.id}, ${hargaFinal}, this)">+ Tambah</button></div></div>`;
   });
   updatePagination();
 }
@@ -411,7 +451,7 @@ function tampilKeranjang(){
   const container = document.getElementById('isi-keranjang');
   const rincianEl = document.getElementById('rincian-total');
   if(keranjang.length === 0){
-    container.innerHTML = "🛒 Keranjang masih kosong";
+    container.innerHTML = "<div style='text-align:center; color:#666; padding:20px'>🛒 Keranjang masih kosong</div>";
     rincianEl.innerHTML = "";
     document.getElementById('notif-kupon').style.display = 'none';
     return;
@@ -425,7 +465,7 @@ function tampilKeranjang(){
     container.innerHTML += `<div class="item-cart"><img src="${k.gambar_url}"><div class="item-info"><h4>${k.nama}</h4><p>Rp ${k.harga.toLocaleString('id-ID')}</p><small style="color:#666">Stok: ${produkAsli.stok}</small><div class="qty-btn"><button onclick="ubahJumlah(${k.id},'kurang')">-</button><input type="number" class="qty-input" value="${k.jumlah}" min="1" max="${produkAsli.stok}" onchange="setJumlah(${k.id}, this.value)"><button ${btnPlusDisabled} onclick="ubahJumlah(${k.id},'tambah')">+</button></div><button class="btn-hapus" onclick="hapusItem(${k.id})">🗑️ Hapus</button></div></div>`;
   });
 
-  let ongkir = ONGKIR_DEFAULT; // IKI NGIKUT ADMIN JO
+  let ongkir = ONGKIR_DEFAULT;
   let biayaLay = ongkir > 0? BIAYA_LAYAN : 0;
   let totalAkhir = totalBelanja + ongkir + biayaLay;
 
@@ -449,7 +489,7 @@ async function kirimPesanan(){
   if(!nama ||!hp ||!alamat){showNotifAyu("Isi data pengiriman dulu!", 'gagal'); return;}
 
   let totalBelanja = keranjang.reduce((a,b)=>a+b.harga*b.jumlah,0);
-  let ongkir = ONGKIR_DEFAULT; // IKI NGIKUT ADMIN JO
+  let ongkir = ONGKIR_DEFAULT;
   let biayaLay = ongkir > 0? BIAYA_LAYAN : 0;
   let totalAkhir = totalBelanja + ongkir + biayaLay;
 
