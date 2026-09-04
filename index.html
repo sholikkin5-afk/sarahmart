@@ -867,21 +867,17 @@
     updateKeranjangBar();
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=' + Date.now()).then(reg => {
-      reg.onupdatefound = () => {
-        const newWorker = reg.installing;
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed') {
-            if (navigator.serviceWorker.controller) {
-              // Ada versi baru
-              if(confirm('Ada update baru! Reload sekarang?')){
-                window.location.reload();
-              }
-            }
+  navigator.serviceWorker.register('/sw.js').then(reg => {
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+          // Mung metu lek bener2 ada file baru
+          if(confirm('Ada update baru! Reload sekarang?')){
+            window.location.reload();
           }
-        };
-      };
+        }
+      });
     });
   });
 }
