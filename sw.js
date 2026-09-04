@@ -36,3 +36,7 @@ self.addEventListener('fetch', event => {
     fetch(event.request).catch(() => caches.match(event.request))
   );
 });
+self.addEventListener('waiting', (event) => {
+  // Ben gak auto kirim "update" tiap reload
+  self.skipWaiting(); 
+});
